@@ -1,0 +1,217 @@
+Local Variable Type Inference or LVTI in Java 10
+================================================
+What is type inference?
+-------------------------
+Type inference refers to the automatic detection of the datatype of a variable, done generally at the compiler time.
+
+What is Local Variable type inference?
+--------------------------------------
+Local variable type inference is a feature in Java 10 that allows the developer to skip the type declaration associated with local variables (those defined inside method definitions, initialization blocks, for-loops, and other blocks like if-else), and the type is inferred by the JDK. It will, then, be the job of the compiler to figure out the datatype of the variable.
+
+Why has this feature been introduced?
+-------------------------------------
+Till Java 9, to define a local variables of class type, the following was the only correct syntax:
+
+Class_name variable_name=new Class_name(arguments);
+For example:
+
+// Sample Java local variable declaration 
+import java.util.ArrayList; 
+import java.util.List; 
+class A { 
+    public static void main(String a[]) 
+    { 
+        List<Map> data = new ArrayList<>(); 
+    } 
+} 
+Or
+
+class A { 
+    public static void main(String a[]) 
+    { 
+        String s = " Hi there"; 
+    } 
+} 
+It looks fine, right? Yeah, because this is how things have been since the inception of Java. But there is one issue: It’s pretty obvious that if the type of the object is clearly mentioned at the right side of the expression, mentioning the same thing before the name of the variable makes it redundant. Plus, in the second example, you can see that it’s obvious that after the ‘=’ sign, it’s clearly a string as nothing except for a string can be enclosed in double inverted commas. Therefore, there arose a need to eliminate this redundancy and make variable declaration shorter, and more convenient.
+
+How to declare local variables using LVTI:
+-------------------------------------------
+Instead of mentioning the variable datatype on the left-side, before the variable, LVTI allows you to simply put the keyword ‘var’. For example,
+
+// Java code for Normal local  
+// variable declaration 
+import java.util.ArrayList; 
+import java.util.List; 
+class A { 
+    public static void main(String ap[]) 
+    { 
+        List<Map> data = new ArrayList<>(); 
+    } 
+} 
+Can be re-written as:
+
+// Java code for local variable  
+// declaration using LVTI 
+import java.util.ArrayList; 
+import java.util.List; 
+class A { 
+    public static void main(String ap[]) 
+    { 
+        var data = new ArrayList<>(); 
+    } 
+} 
+Use Cases:
+==========
+Here are the cases where you can declare variables using LVTI:
+
+In a static/instance initialization block:
+-----------------------------------------
+// Declaration of variables in static/init  
+// block using LVTI in Java 10 
+class A { 
+    static
+    { 
+        var x = "Hi there"; 
+        System.out.println(x)' 
+    } 
+    public static void main(String[] ax) 
+    { 
+    } 
+} 
+    Output:
+     Oh hi there
+As a local variable:
+--------------------
+// Declaration of a local variable in java 10 using LVTI 
+class A { 
+    public static void main(String a[]) 
+    { 
+        var x = "Hi there"; 
+        System.out.println(x) 
+    } 
+} 
+      Output:
+      Hi there
+As iteration variable in enhanced for-loop:
+-------------------------------------------
+// Declaring iteration variables in enhanced for loops using LVTI in Java 
+class A { 
+    public static void main(String a[]) 
+    { 
+        int[] arr = new int[3]; 
+        arr = { 1, 2, 3 }; 
+        for (var x : arr) 
+            System.out.println(x + "\n"); 
+    } 
+} 
+Output:
+1
+2
+3
+As looping index in for-loop:
+------------------------------
+// Declaring index variables in for loops using LVTI in Java 
+class A { 
+    public static void main(String a[]) 
+    { 
+        int[] arr = new int[3]; 
+        arr = { 1, 2, 3 }; 
+        for (var x = 0; x < 3; x++) 
+            System.out.println(arr[x] + "\n"); 
+    } 
+} 
+Output:
+1
+2
+3
+As a return value from another method:
+--------------------------------------
+// Storing the return value of a function in a variable declared with LVTI 
+class A { 
+    int ret() 
+    { 
+        return 1; 
+    } 
+    public static void main(String a[]) 
+    { 
+        var x = new A().ret(); 
+        System.out.println(x); 
+    } 
+Output:
+1
+As a return value in a method:
+------------------------------
+// Using a variable declared  
+//using the keyword 'var' as a return value of a function 
+class A { 
+    int ret() 
+    { 
+        var x = 1; 
+        return x; 
+    } 
+    public static void main(String a[]) 
+    { 
+        System.out.println(new A().ret()); 
+    } 
+} 
+Output:
+1
+Error cases:
+=============
+There are cases where declaration of local variables using the keyword ‘var’ produces an error. They’re mentioned below:
+Not permitted in class fields:
+-----------------------------
+// Sample java code to demonstrate  
+//that declaring class variables  
+//using 'var' is not permitted 
+class A { 
+    var x; /* Error: class variables can't be declared 
+            using 'var'. Datatype needs 
+             to be explicitly mentioned*/
+} 
+Not permitted for uninitialized local variables:
+------------------------------------------------
+// Sample java code to demonstrate  
+//that declaring uninitialized  
+//local variables using 'var' produces an error 
+class A { 
+    public static void main(String a[]) 
+    { 
+        var x; /* error: cannot use 'var'  
+                on variable without initializer*/
+    } 
+} 
+Not allowed as parameter for any methods:
+---------------------------------------
+// Java code to demonstrate that 
+// var can't be used in case of  
+//any method parameters 
+class A { 
+    void show(var a) /*Error: can't use 'var' 
+                       on method parameters*/
+    { 
+    } 
+} 
+Not permitted in method return type:
+------------------------------------
+// Java code to demonstrate 
+// that a method return type 
+// can't be 'var' 
+class A { 
+    public var show() /* Error: Method return type  
+                                     can't be var*/
+    { 
+        return 1; 
+    } 
+} 
+Not permitted with variable initialized with ‘NULL’:
+----------------------------------------------------
+// Java code to demonstrate that local  
+variables initialized with 'Null' 
+can't be declared using 'var'*/ 
+class A { 
+    public static void main(String a[]) 
+    { 
+        var x = NULL; // Error: variable initializer is 'null' 
+    } 
+Note: All these pieces of code run only on Java 10.

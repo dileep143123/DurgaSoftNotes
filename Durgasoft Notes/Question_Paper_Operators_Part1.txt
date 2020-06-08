@@ -1,0 +1,567 @@
+Q1. Consider the following code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int x =10;
+		int y = ++10;
+		System.out.println(x+":"+y);
+	}
+}
+
+What is the result?
+
+A) 10
+B) 11
+C) Compilation Fails
+D) An exception is thrown at runtime
+
+Ans: C
+Explanation:
+We can use increment and decrement operators only for variables but not for constant values.
+Test.java:6: error: unexpected type
+                int y = ++10;
+                          
+  required: variable
+  found:    value
+1 error
+
+Q2. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int x =10;
+		int y = ++x;//Line-1
+		int z = ++10;//Line-2
+		System.out.println(x+":"+y+":"+z);
+	}
+}
+
+A) It prints 10:11:11
+B) Compilatation fails at Line-1
+C) Compilatation fails at Line-2
+D) it throws an exception at runtime
+
+Ans: C
+
+Q3. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int x =10;
+		int y = ++(++x);
+		System.out.println(x+":"+y);
+	}
+}
+
+What is the result?
+A) 10:10
+B) 10:11
+C) 10:12
+D) Compilation Fails.
+
+Ans: D
+Explanation:
+Nesting of increment and decrement operators not allowed.
+CE:
+Test.java:6: error: unexpected type
+                int y = ++(++x);
+                           
+  required: variable
+  found:    value
+1 error
+
+
+
+Q4. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		final int x =10;
+		++x;
+		System.out.println(x);
+	}
+}
+
+What is the result?
+A) 10
+B) 11
+C) Compilation Fails.
+D) An exception is thrown at runtime
+
+Ans: C
+
+Explanation:
+We cannot use increment and decrement operators for final variables.
+//++x;===>x=x+1
+Test.java:6: error: cannot assign a value to final variable x
+                ++x;
+        
+Q5. Consider the code: 
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		var ch = 'a';
+		System.out.print(++ch);
+		var d = 10.5;
+		System.out.print(++d);
+		var b = true;
+		System.out.print(++b);
+	}
+}
+What is the result?
+
+A) b:11.5:false
+B) We will get compile time error because we cannot we cannot apply increment operator for char, double and boolean types.
+C) We will get compile time error because we cannot we cannot apply increment operator for double and boolean types.
+D) We will get compile time error because we cannot we cannot apply increment operator for boolean types.
+
+Ans: D
+Explanation: We can apply increment and decrement operators for any primitive type except boolean type.
+CE:
+Test.java:10: error: bad operand type boolean for unary operator '++'
+                System.out.print(++b);
+
+
+Q6. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		var ch = 'a';
+		System.out.print(++ch);//Line-1
+		var d = 10.5;
+		System.out.print(++d);//Line-2
+		
+	}
+}
+
+A) b11.5
+B) 9811.5
+C) Compilation Fails at Line-1
+C) Compilation Fails at Line-2
+
+Ans: A
+Explanation:
+We can use increment and decrement operators for every primitive type except boolean type.
+
+var ch = 'a';
+System.out.print(++ch)// ch=(char)(ch+1);
+
+
+Q7. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		byte b = 127;
+		b++;
+		System.out.println(b);
+	}
+}
+
+What is the result?
+A) 128
+B) -128
+C) Compilation Fails.
+D) An exception is thrown at runtime
+
+Ans: B
+
+Explanation:
+byte b = 127;
+b++; This line is not equivalent to b = b+1;
+
+The equivalent line is:
+b= (byte)(b+1);
+Because of internal typecasting loss of information will be there.
+
+
+Q8. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		byte b = 127;
+		b +=1;
+		System.out.println(b);
+	}
+}
+What is the result?
+A) 128
+B) -128
+C) Compilation Fails.
+D) An exception is thrown at runtime
+
+Ans: B
+
+Explanation:
+byte b = 127;
+b += 1; This line is not equivalent to b = b+1;
+
+The equivalent line is:
+b= (byte)(b+1);
+Because of internal type casting loss of information will be there.
+
+
+Q9. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		byte a = 10;
+		byte b = 20;
+		byte c = a+b;
+		System.out.println(c);
+	}
+}
+
+What is the result?
+A) 30
+B) Compilation Fails because we cannot use + operator for byte types.
+C) Compilation Fails because we cannot assign int value to the byte type.
+D) An exception is thrown at runtime.
+
+Ans: C
+Explanation: 
+If we apply any arithmetic operator between two arguments a and b then the result type is always :
+
+max(int , type of a, type of b)
+
+The type of a+b is int type and hence we cannot assign int value to the byte type. We will get compile time error.
+
+Test.java:7: error: incompatible types: possible lossy conversion from int to byte
+                byte c = a+b;
+
+The required changes are: 
+int c = a+b;  or 
+byte c=(byte)(a+b)
+
+
+Q10. Consider the code:
+		 
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		final byte a =10;
+		final byte b = 20;
+		byte c = a+b;
+		System.out.println(c);
+	}
+}
+
+What is the result?
+A) 30
+B) Compilation Fails because we cannot use + operator for byte types.
+C) Compilation Fails because we cannot assign int value to the byte type.
+D) An exception is thrown at runtime.
+
+Ans: A
+Explanation: Every final variable will be replaced by value at compile time. If all arguments are compile time constants then that operation will be performed at compile time only.
+At compile time byte  c = a+b; line replaced with byte c = 30; which is valid.
+
+    byte c = a+b;
+    byte c = 10+20;
+    byte c = 30;
+
+
+Q11. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		System.out.println('a'+'b');
+	}
+}
+
+A) 195
+B) ab
+C) Compilation Fails
+D) An exception is thrown at runtime.
+
+Ans: A
+
+If we apply any arithmetic operator between two arguments a and b then the result type is always :
+
+max(int , type of a, type of b)
+max(int,char,char) ===>int type.
+
+Q12. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		System.out.print('a'+'b'+10+'a');		
+	}
+}
+
+What is the result?
+
+A) Compilation Fails
+B) ab10a
+C) 302
+D) An exception is thrown at runtime
+
+Ans: C
+Explanation:
+If we apply any arithmetic operator between two arguments a and b then the result type is always :
+max(int , type of a, type of b)
+In the above code + operator will always work only for arithmetic addition. Hence the result is:
+97+98+10+97=302
+
+
+Q13. Consider the following 6 lines of code:
+System.out.println(10/0);
+System.out.println(10.0/0);
+System.out.println(-10.0/0);
+System.out.println(0/0);
+System.out.println(0.0/0);
+System.out.println(-0/0.0);
+
+How many of the above lines will cause Runtime Exception saying java.lang.ArithmeticException:
+
+A) 1
+B) 2
+A) 3
+A) 4
+A) 5
+A) 6
+
+Ans: B
+
+Explanation:
+System.out.println(10/0);//ArithmeticException
+System.out.println(10.0/0);//Infinity
+System.out.println(-10.0/0);// -Infinity
+System.out.println(0/0);//ArithmeticException
+System.out.println(0.0/0);//NaN
+System.out.println(-0/0.0);//NaN
+
+
+
+Q14. Consider the following lines of code:
+
+System.out.println(10> Float.NaN);
+System.out.println(10< Float.NaN);
+System.out.println(10>= Float.NaN);
+System.out.println(10<= Float.NaN);
+System.out.println(10 == Float.NaN);
+System.out.println(Float.NaN == Float.NaN);
+
+How many of the above lines will print true?
+
+A) 0
+B) 1
+C) 2
+A) 3
+A) 4
+A) 5
+A) 6
+
+
+Ans: A
+
+Explanation:
+If we compare any x value including NaN with NaN the following expressions will always returns false.
+x > NaN
+x >= NaN
+x < NaN
+x <= NaN
+x == NaN
+But any x value including NaN the following expression returns true
+x != NaN
+
+Q15. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		System.out.print(10 != Float.NaN);		
+		System.out.print(Float.NaN != Float.NaN);		
+	}
+}
+
+What is the result?
+A) truetrue
+B) truefalse
+C) falsetrue
+D) falsefalse
+
+Ans: A
+
+Explanation:
+If we compare any x value including NaN with NaN the following expressions will always returns false.
+x > NaN
+x >= NaN
+x < NaN
+x <= NaN
+x == NaN
+But any x value including NaN the following expression returns true
+x != NaN
+
+
+Q16. Which of the following is TRUE about ArithmeticException?
+
+A) It is a Runtime Exception, but not compile time error.
+B) It will be raised only in integral arithmetic but not in floating point arithmetic.
+C) The only operators which cause ArithmeticException are / and %.
+D) All of these
+
+Ans: D
+
+Q17. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		String a="durga";
+		int b =10,c=20,d=30;
+		System.out.println(a+b+c+d);
+		System.out.println(b+a+c+d);
+		System.out.println(b+c+a+d);
+		System.out.println(b+c+d+a);
+	}
+}
+What is the result?
+A) 
+durga102030
+10durga2030
+30durga30
+60durga
+B) 
+durga60
+10durga2030
+30durga30
+60durga
+C) 
+durga60
+10durga50
+30durga30
+60durga
+D) 
+durga60
+10durga50
+30durga30
+102030durga
+
+Ans: A
+Explanation:
+If both arguments are numbers then only + acts as arithmetic addition operator.
+
+If atleast one argument is String type, then + operator acts as concatenation operator.
+
+a+b+c+d
+"durga"+10+20+30
+"durga10"+20+30
+"durga1020"+30
+"durga102030"
+
+
+Q18. Consider the code:
+
+String a="durga";
+int b =10,c=20,d=30;
+
+Which of the following lines are valid?
+
+A)  a = b+c+d;
+B)  b = a+c+d;
+C)  a = a+c+d;
+D)  d = b+c+d;
+
+Ans: C,D
+
+Explanation:
+If both arguments are numbers then only + acts as arithmetic addition operator.
+
+If atleast one argument is String type, then + operator acts as concatenation operator.
+
+
+Q19. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int a =10;
+		int b = 20;
+		System.out.println("a+b="+a+b);
+		System.out.println("a+b="+(a+b));
+		System.out.println("a+b="+(a)+(b));
+		
+	}
+}
+What is the result?
+
+A) 
+a+b=1020
+a+b=30
+a+b=1020
+B) 
+a+b=30
+a+b=30
+a+b=1020
+C) 
+a+b=30
+a+b=30
+a+b=30
+D) Compilation Fails
+
+Ans: A
+
+Explanation:
+If both arguments are numbers then only + acts as arithmetic addition operator.
+
+If atleast one argument is String type, then + operator acts as concatenation operator.
+
+Q20. Consider the code:
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		int a =10;
+		int b = 20;
+		System.out.println(a+b+"=a+b="+a+b);
+		System.out.println((a)+(b)+"=a+b="+a+b);
+		System.out.println((a)+(b)+"=a+b="+(a+b));
+	}
+}
+
+A)
+30=a+b=1020
+30=a+b=1020
+30=a+b=30
+B) 
+30=a+b=30
+30=a+b=1020
+30=a+b=30
+C)
+30=a+b=30
+30=a+b=30
+30=a+b=30
+D) Compilation Fails.
+
+Ans: A
+
+Explanation:
+If both arguments are numbers then only + acts as arithmetic addition operator.
+
+If atleast one argument is String type, then + operator acts as concatenation operator.
