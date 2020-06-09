@@ -1,0 +1,987 @@
+IOStreams: 
+-----------
+In any programming language,in any application,providing input to the Applications and getting output from the Applications is essential.
+ 
+In case of C and C++ applications,we are able to perform input and output operations by using some predefined library in the form of printf(),scanf(),cin>>,cout<<,...... 
+
+Similarly in Java Applications,to perform input and output operations we have to use streams. 
+
+Java has represented all the streams in the form of predefined classes in "java.io" package. 
+
+Stream:
+-------
+Stream is medium or channel,it will allow the data in continuous flow from input devices to java program and from Java program to output devices
+.  
+In Java IOStreams are divided into following ways: 
+
+1.Byte oriented Streams. 
+2.Character-Oriented Streams    
+
+1.Byte-Oriented Streams
+------------------------ 
+These are Streams, which will allow the data in the form of bytes from input devices to Java  program and from java program to output devices. 
+The length of the data in byte-oriented streams is 1 byte. 
+
+There are two types of Byte-Oriented Streams 
+
+1.InputStream 
+2.OutputStream 
+
+1.InputStream: 
+---------------
+It is a byte-oriented Stream,it will allow  data in the form of bytes from input devices to Java Applications. 
+
+Ex: 
+---
+ByteArrayInputStream 
+FilterInputStream 
+DataInputStream 
+ObjectInputStream 
+FileInputStream 
+StringBufferInputStream 
+BufferedInputStream…. 
+
+2.OutputStream: 
+---------------
+It is a byte-oriented Stream,it will allow the data in the form of bytes from Java applications to output devices. 
+
+Ex:
+---
+ByteArrayOutputStream 
+FilterOutputStream 
+DataOutputStream 
+FileOutputStream 
+PrintStream 
+BufferedOutputStream.. 
+NOTE:All the ByteOrientedStream classes are terminated with "Stream" word.
+Note: The length of data items in Byte Oriented Streams is 1 byte.
+ 
+2.Character-Oriented Streams: 
+-----------------------------
+These are the Streams,which will allow the data in the form of characters from input devices to java program and form java program to output devices. 
+
+There are two bytes of character-oriented streams 
+
+1.Reader 
+2.Writer 
+
+1.Reader: 
+-----------
+It is a character-oriented stream,it will allow the data in the form of characters from input devices to java program. 
+
+Ex: 
+---
+CharArrayReader 
+FilterReader 
+BufferedReader 
+FileReader 
+InputStreamReader….    
+
+2.Writer: 
+---------
+It is a character-oriented stream,it will allow the data in the form of characters from java program to output devices. 
+
+Ex: 
+---
+CharArrayWriter 
+FilterWriter 
+FileWriter 
+PrintWriter 
+BufferedWriter…. 
+
+NOTE:All the predefined Classes of character-oriented streams are terminated with either Reader or Writer. 
+
+Note: The length of the data in characters-oriented stream is 2 bytes. 
+
+FileOutPutStream: 
+-----------------
+It is byte-oriented Stream,it can be used to transfer the data from Java program to a particular target file. 
+To transfer the data from Java program to a particular target file by using FileOutPutstream we have to use the following Steps. 
+1.Create FileOutPutStream between Java programme and target file: 
+If we want to create FileOutPutStream class object then we have to use the following constructors 
+ public FileOutPutStream(String target_File) 
+ public FileOutPutStream(String target_File,boolean b)  
+    
+Ex: 
+FileOutPutStream fos=new FileOutPutStream("abc.txt"); 
+-->It will override the existed data in the target file at each and every write operation. 
+FileOutPutStream fos=new FileOutPutStream("abc.txt",true); 
+-->It will not override the existed data in the target file,it will append the specified new data to the existed data in the target file. 
+When JVM encounter the above instruction,JVM will perform the following tasks. 
+a)JVM will take the specified target file. 
+b)JVM will search for the specified target file at the respective location. 
+c)If the specified target file is available then JVM will establish FileOutPutStream from java program to target file. 
+d)If the specified target file is not available then JVM will create a file with the target file name and establish FileOutPutStream from Java program to target file. 
+2)Declare the data and convert into byte[]: 
+String data="Hello"; 
+byte[] b=data.getBytes(); 
+3)Write Byte Array data into FileOutPutStream: 
+To write byte[] data into FileOutPutStream,we have to use the following method. 
+public void write(byte[] b) throws IOException 
+Ex: 
+fos.write(b);  
+4)Close FileOutPutStream: 
+fos.close(); 
+
+2.FileInputStream: 
+------------------
+It is a byte-oriented Stream,it can be used to transfer the data from a particular source file to Java Program. 
+If we want to transfer the data from source file to java programme by using FileInputStream,we have to use the following Steps: 
+1.Create FileInputStream class Object: 
+To create FileInputStream class object,we have to use the following constructor from java.io.FileInputStream class. 
+public FileInputStream(String file_name) throws FileNotFoundException 
+Ex: 
+FileInputStream fis=new FileInputStream("abc.txt"); 
+When JVM encounter the above instruction then JVM will perform the following actions. 
+1.JVM will take the specified source file name. 
+2.JVM will search for the specified source file at the respective location. 
+3.If the source file is not available at the respective location then JVM will raise an excpetion like "java.io.FileNotFoundException". 
+4.If the required source file is available then JVM will establish FileInputStream from source file to JAVA program. 
+5.After creating FileInputStream,JVM will transfer the data from source file to FileInputStream in the form bytes.   
+2.Get the size of the data from FileInputStream and prepare byte[] with the data size: 
+To get the size of the data from FileInputStream,we have to use the following method 
+public int available() 
+Ex: 
+int size=fis.available(); 
+byte[] b=new byte[size]; 
+3.Read the data from FileInputStream into byte[]: 
+To read the data from FileInputStream into byte[],we have to use the following method. 
+public void read(byte[] b)throws IOException 
+Ex: 
+fis.read(b); 
+4.Convert data from byte[] to String: 
+String data=new String(b); 
+System.out.println(data); 
+5.close FileInputStream: 
+fis.close();  
+    
+Write a Java program to display a particular file content on command prompt by taking filename as command line input?  
+
+import java.io.*; 
+class DisplayEx{ 
+public static void main(String args[]) throws Exception{ 
+String file_Name=args[0]; 
+FileInputStream fis=new FileInputStream(file_Name); 
+int size=fis.available(); 
+byte b[]=new byte[size]; 
+fis.read(); 
+String data=new String(b); 
+System.out.println(data); 
+fis.close(); 
+}
+}  
+
+Write a Java program to count no of words available in a particular text file and how many times the word "Durga" is repeated?  
+
+import java.io.*; 
+import java.util.*; 
+class Word_Count_Ex{ 
+public static void main(String args[]) throws Exception{ 
+FileInputStream fis=new FileInputStream("abc.txt"); 
+int size=fis.available(); 
+byte b[]=new byte[size]; 
+fis.read(); 
+String data=new String(b); 
+StringTokenizer st=new StringTokenizer(data); 
+int tokens=st.countTokens(); 
+System.out.println("No of words :"+tokens); 
+int count=0; 
+while(st.hasMoreTokens()){ 
+String token=st.nextToken(); 
+if(token.equals("Durga")){ 
+count=count+1; 
+}
+} 
+System.out.println("'Durga' is repeated :"+count); 
+fis.close(); 
+}
+}  
+
+Write a Java program to copy an image from a source file to a particular target file?  
+
+import java.io.*; 
+public class Image_Copy_Ex{ 
+public static void main(String args[]){ 
+FileInputStream fis=new FileInputStream(); 
+int size=fis.available(); 
+byte[] b=new byte[size]; 
+fis.read(b); 
+FileOutPutStream fos=new FileOutPutStream("abc.jpg"); 
+fos.write(b); 
+fis.close(); 
+fos.close(); 
+}
+}  
+
+FileWriter: 
+-----------
+This character-oriented Stream can be used to transfer the data from Java Application to a particular target File. 
+If we want to transfer the data from java application to a particular target file by using FileWriter then we have to use the following steps: 
+1.Create FileWriter object: 
+To create FileWriter class object,we have to use the following constructor. 
+public FileWriter(String target_File) 
+Ex:FileWriter fw=new FileWriter("abc.txt"); 
+-->It will override the existed content with the new content at each and every write operation. 
+public FileWriter(String target_File,boolean b) 
+Ex:FileWriter fw=new FileWriter("abc.txt",true); 
+-->It will append new content to the existed content available in the file at each and every write operation. 
+When JVM encounter the above instructions,JVM will take the specified file and JVM search for the specified file at the respective location,if the required target file is available then JVM will establish FileWriter from Java application 
+to the target file.If the required target file is not available at the respective location then JVM will create a new file with the same specified file name and establish FileWriter from Java application to the target file.   
+2.Declare the data which we want to transfer and convert that data into char[]: 
+String data="Hello"; 
+char[] ch=data.toCharArray(); 
+3.Write char[] data into FileWriter: 
+To write char[] data into FileWriter,we have to use the following method. 
+public void write(char[] ch)throws IOException 
+Ex:fw.write(ch); 
+4.Close FileWriter: 
+fw.close();  
+
+Ex:
+--- 
+import java.util.*; 
+public class FileWriterEx{ 
+public static void main(String args[])throws Exception{ 
+FileWriter fw=new FileWriter("abc.txt",true); 
+String data="DurgaSoftwareSolutions"; 
+char[] ch=data.toCharArray(); 
+fw.write(ch); 
+fw.close(); 
+}
+}  
+
+FileReader: 
+-----------
+This character-oriented stream can be used to transfer the data from a particular source file to Java program. 
+If we want to transfer the data from a particular source file to Java program by using FileReader then we have to use the following steps: 
+1.Create FileReader class Object: 
+To create FileReader class object,we have to use the following constructor. 
+public FileReader(String file_Name)throws FileNotFoundException 
+Ex:FileReader fr=new FileReader("abc.txt"); 
+when JVM encounter the above instruction,JVM will perform the following steps. 
+a)JVM will take source file name from FileReader constructor. 
+b)JVM will check whether the specified file is available or not at the respective location. 
+c)If the specified source file is not available at the respective location then JVM will rise an exception like "java.io.FileNotFoundException". 
+d)If the specified file is existed at the respective location then JVM will establish FileReader from source file to Java program. 
+e)After creating FileReader,JVM will transfer the content of source file to FileReader object in the form of characters. 
+2.Read data from FileReader: 
+To read data from FileReader,we have to use the following steps. 
+a)Read character by character from FileReader in the form of ASCII values. 
+b)Convert that ASCII values into the respective characters. 
+c)Append the converted characters to a String variable. 
+Repeat the above steps upto all the characters which are available in the respective source file or upto the end-of-file character i.e "-1". 
+To read an ASCII value from FileReader,we have to use the following method. 
+public int read() throws IOException 
+3.Close FileReader: 
+fr.close();  
+EX:
+--- 
+import java.util.*; 
+public class FREx{ 
+public static void main(String args[])throws Exception{ 
+FileWriter fr=new FileWriter("abc.txt"); 
+String data=""; 
+int val=fr.read(); 
+while(val!=-1){ 
+data=data+(char)val; 
+val=fr.read(); 
+} 
+System.out.println(data); 
+fr.close(); 
+}
+}   
+
+Write a JAVA programme to copy a document from one file to another file by using character oriented Streams? 
+import java.io.*; 
+public class FileCopyEx{ 
+public static void main(String args[])throws Exception{ 
+FileReader fr=new FileReader("hibernatecgf.xml"); 
+String data=""; 
+int val=fr.read(); 
+while(val!=-1){ 
+data=data+(char)val; 
+val=fr.read(); 
+} 
+char[] ch=data.toCharArray(); 
+FileWriter fw=new FileWriter("abc.xml"); 
+fw.write(ch); 
+fr.close(); 
+fw.close(); 
+}
+} 
+
+Approaches to provide dynamic input: 
+-------------------------------------
+There are three approaches to provide dynamic input in java applications. 
+1.BufferedReader 
+2.Scanner 
+3.Console 
+
+1.BufferedReader:
+----------------- 
+If we want to take dynamic input by using BufferedReader in java applications then we have to use the following statement. 
+
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+
+where "in" is static variable,it will refer a predefined "InputStream" object which is connected with command prompt. 
+If we provide data on command prompt then that data will be transfered to InputStream object in the form of binary data. 
+
+where "InputStreamReader can be used to convert the data from binary representation to character representation. 
+
+where BufferedReader can be used to improve the performance of Java application while performing input operation.    
+
+To read the data from BufferedReader,we will use the following method 
+1.readLine() 
+2.read()  
+
+Q)What is the difference between readLine() method and read() method? 
+----------------------------------------------------------------------
+Ans:
+----
+readLine() method will read a line of text from command prompt[BufferedReader] and it will return that data in the form of String. 
+
+public String readLine() throws IOException 
+
+read() method will read a single character from command prompt[BufferedReader] and it will return that character in the form of its ASCII value. 
+
+public int read()throws IOException   
+
+EX:
+--- 
+import java.io.*; 
+public class BufferedReaderEx{ 
+public static void main(String args[])throws Exception{ 
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+System.out.println("Enter Text :"); 
+String data1=br.readLine(); 
+System.out.println("Enter the same text again :"); 
+int data2=br.read(); 
+System.out.println("First Entered :"+data1); 
+System.out.println("Second Entered :"+data2+"--->"+(char)data2); 
+}
+}  
+
+Consider the following programme: 
+import java.io.*; 
+public class BufferedReaderEx{ 
+public static void main(String args[])throws Exception{ 
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+System.out.println("First value :");  
+String val1=br.readLine(); 
+System.out.println("Second value :"); 
+String val2=br.readLine(); 
+System.out.println("Addition :"+val1+val2); 
+}
+}  
+
+If we provide 10 and 20 as dynamic input to the above programme then the above programme will display "1020" value instead of 30 that is the above programme has performed String concatenation instead of performing Arithmetic Addition because br.readLine() method has return 10 and 20 values in the form String data. 
+
+In the above programme,if we want to perform Arithmetic operations over dynamic input then we have to convert String data into the respective primitive data,for this we have to use Wrapper Classes. 
+
+ThereFore,BufferedReader dynamic input approach is depending on wrapper classes while reading primitive data as dynamic input.  
+
+EX:
+--- 
+import java.io.*; 
+public class BufferedReaderEx{ 
+public static void main(String args[])throws Exception{ 
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in)); 
+System.out.println("First value :"); 
+String val1=br.readLine(); 
+System.out.println("Second value :"); 
+String val2=br.readLine(); 
+int f_Val=Integer.parseInt(val1); 
+int s_Val=Integer.parseInt(val2); 
+System.out.println("Addition :"+(f_Val+s_Val)); 
+}
+}
+  
+Scanner: 
+---------
+This class is provided by Java in java.util package along with JDK5.0 Version. 
+
+In java applications, if we use BufferedReader to dynamic input then we must use wrapper classes while reading primitive data as dynamic Input. 
+In java applications, if we use "Scanner" to read dynamic input then it is not required to use wrapper classes while reading primitive data as dynamic input, scanner is able to provide environment to read primitive data directly from command prompt. 
+
+If we want to use scanner in Java applications then we have to use the following steps. 
+
+1.Create Scanner class Object: 
+To create Scanner class Object,we have to use the following constructor 
+public Scanner(InputStream is) 
+
+Ex:Scanner s=new Scanner(System.in); 
+
+2.Read dynamic Input: 
+To read String data as Dynamic input,we have to use the following method. 
+public String next() 
+To read primitive data as Dynamic input,we have to use the following method. 
+
+public xxx nextXXX()  
+where xxx may be byte,short,int,float............... 
+EX:
+---
+import java.util.*;
+public class ScannerEx 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Scanner s=new Scanner(System.in);
+		System.out.print("Employee Number  :");
+		int eno=s.nextInt();
+		System.out.print("Employee Name    :");
+		String ename=s.next();
+		System.out.print("Employee Salary  :");
+		float esal=s.nextFloat();
+		System.out.print("Employee Address :");
+		String eaddr=s.next();
+		
+		System.out.println("Employee Details");
+		System.out.println("---------------------");
+		System.out.println("Employee Number   :"+eno);
+		System.out.println("Employee Name     :"+ename);
+		System.out.println("Employee Salary   :"+esal);
+		System.out.println("Employee Address  :"+eaddr);
+	}
+}
+EX:
+----
+import java.util.*;
+public class ScannerEx1 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Scanner s=new Scanner(System.in);
+		System.out.print("Enter Text Data :");
+		String data1=s.nextLine();
+		System.out.print("Enter The same text data again :");
+		String data2=s.next();
+		System.out.println("First Entered   :"+data1);
+		System.out.print("Second Entered    :"+data2);
+
+	}
+}
+
+Console: 
+--------
+This class is provided by Java in java.io package along with JAVA6 Version. 
+
+In Java applications,to take dynamic input,if we use BufferedReader and Scanner then we are able to get the following drawbacks:
+ 
+1.We have to consume 2 instructions for each and every dynamic input[s.o.pln(..) and readLine() or nextXXX() methods] 
+
+2.These are not providing security for the data like password data,pin numbers..... 
+
+To overcome the above problems,we have to use "Console" dynamic input approach. 
+
+If we want to use Console in Java applications then we have to use the following Steps: 
+
+1.Create Console object: 
+To get Console object,we have to use the following method from "System" class. 
+public static Console console() 
+Ex:Console c=System.console(); 
+
+2.Read dynamic Input: 
+To read String data,we have to use the following method. 
+public String readLine(String msg) 
+To read password data,we have to use the following method. 
+public char[] readPassword(String msg)   
+
+EX:
+--- 
+import java.io.*; 
+public class ConsoleEx{ 
+public static void main(String args[])throws Exception{ 
+Console c=System.console(); 
+String uname=c.readLine("User Name :"); 
+char[] pwd=c.readPassword("PassWord :"); 
+String upwd=new String(pwd); 
+if(uname.equals("durga")&&upwd.equals("durga")){ 
+System.out.println("Valid User"); 
+} 
+else{ 
+System.out.println("InValid User"); 
+}
+} 
+}  
+
+Serialization and Deserialization: 
+-----------------------------------
+If we design Java applications by distributing application logic over multiple [JVMS] then that Java application is called as Distributed Application. 
+
+In general, in Distributed applications, it is frequent requirement to transfer an object [Distributed Object] from one machine to another machine. 
+
+In Java, Object is a block of memory, it is not possible to transfer the object through network, where we have to transfer object data from one machine to another machine through network. 
+
+To transfer an Object through network from one machine to another machine, first we have to separate the data from an object at local machine and convert the data from system representation to network representation then transfer the data to network. 
+
+At remote machine, we have to get the data from network and convert the data from system representation to System representation and reconstruct an object on the basis of data.  
+----Diagram--------------  
+
+The process of converting the data from System representation to network representation is called as "Marshalling". 
+
+The process of converting the data from Network representation to System representation is called as "UnMarshalling". 
+
+The Process of separating the data from an Object is called as "Serialization". 
+
+The process of reconstructing an object on the basis of data is called as "Deserialization". 
+
+To perform Serialization and Deserialization in Java applications, JAVA has given two predefined byte-oriented streams like java.io.ObjectOutputStream for Serialization java.io.ObjectInputStream for Deserialization 
+
+In Standalone applications,if we want to perform Serialization and Deserialization over an object then we have to take a file[text file] to store serialized data. 
+
+Steps to Perform Serialization: 
+-------------------------------
+1.Create Serializable Object: 
+To create Serializable Object we have to implement java.io.Serializable marker interface to the respective class.  
+Serializable interface is marker interface,it will make eligible any object for Serialization and Deserialization. 
+
+EX: 
+---
+class Employee implements Serializable{ 
+int eno=111; 
+String ename="AAA"; 
+float esal=5000; 
+} 
+Employee e1=new Employee(); 
+
+2.Prepare FileOutPutStream with a particular target File: 
+     FileOutPutStream fos=new FileOutPutStream("abc.txt"); 
+
+3.Create ObjectOutPutStream: 
+To create ObjectoutputStream,we have to use the following constructor. 
+public ObjectOutputStream(FileOutputStream fos) 
+Ex:ObjectOutputStream oos=new ObjectOutputStream(fos); 
+
+4.Write Serializable object to ObjectOutputStream: 
+To write Serializable object to ObjectOutputStream,we have to use the following method. 
+public void writeObject(Object obj)throws NotSerializableException 
+Ex:oos.writeObject(e1);  
+   
+Steps To perform DeSerialization: 
+----------------------------------
+1.Create FileInputStream object: 
+   FileInputStream fis=new FileInputStream("emp.txt"); 
+2.Create ObjectInputStream: 
+To create ObjectInputStream class object,we have to use the Following constructor. 
+  public ObjectInputStream(FileInputStream fis) 
+  Ex:ObjectInputStream ois=new ObjectInputStream(fis); 
+3.Read DeSerialized Data from ObjectInputStream: 
+To read DeSerialized object from ObjectInputStream,we have to use the following method. 
+   public Object readObject() 
+   Ex:Employee e2=(Employee)ois.readObject();
+
+EX:
+----
+import java.io.*;
+class Employee implements Serializable
+{
+	int eno;
+	String ename;
+	float esal;
+	String eaddr;
+
+	Employee(int eno, String ename, float esal, String eaddr)
+	{
+		this.eno=eno;
+		this.ename=ename;
+		this.esal=esal;
+		this.eaddr=eaddr;
+	}
+
+	public void getEmpDetails()
+	{
+		System.out.println("Employee Details");
+		System.out.println("----------------------");
+		System.out.println("Employee Number  :"+eno);
+		System.out.println("Employee Name    :"+ename);
+		System.out.println("Employeed Salary :"+esal);
+		System.out.println("Employee Address :"+eaddr);
+	}
+}
+class SerializationEx 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		FileOutputStream fos=new FileOutputStream("emp.txt");
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		Employee emp1=new Employee(111, "Durga", 50000, "Hyd");
+		System.out.println("Employee Details before Serialization");
+		emp1.getEmpDetails();
+		oos.writeObject(emp1);
+		System.out.println();
+		
+		FileInputStream fis=new FileInputStream("emp.txt");
+		ObjectInputStream ois=new ObjectInputStream(fis);
+		Employee emp2=(Employee)ois.readObject();
+		System.out.println("Employee Details After Deserialization");
+		emp2.getEmpDetails();
+	}
+}
+  
+-->In Object serialization, static members are not allowed. 
+-->If we serialize any object having static variables then compiler will not rise any error and JVM will not rise any exception but static variables will not be listed in the serialized data in the text file. 
+-->In object serialization,if we do not want to allow any variable in serialization and  deserialization then we have to declare that variable as "transient" variable. 
+transient int eno=111; 
+EX:
+---
+import java.io.*;
+class User implements Serializable
+{
+	String uname;
+	transient String upwd;
+	String uemail;
+	long umobile;
+	public static final int MIN_AGE=18;
+	public static final int MAX_AGE=25;
+
+	User(String uname, String upwd, String uemail, long umobile)
+	{
+		this.uname=uname;
+		this.upwd=upwd;
+		this.uemail=uemail;
+		this.umobile=umobile;
+	}
+}
+class Test 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		FileOutputStream fos=new FileOutputStream("abc.txt");
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		User u=new User("abc", "abc123", "abc@duurgasoft.com", 998877);
+		oos.writeObject(u);
+	}
+}
+
+
+-->In Java applications, if we serialize an object which is not implementing java.io.Serializable interface then JVM will rise an exception like "java.io.NotSerializableException".   
+import java.io.*; 
+class A{ 
+int i=10; 
+int j=20; 
+} 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+FileOutputStream fos=new FileOutputStream("abc.txt"); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
+A a=new A(); 
+oos.writeObject(a); 
+}} 
+Status:"java.io.NotSerializableException".[Exception] 
+
+-->In Java applications, if we implement Serializable interface to the super class then automatically all the sub class objects are eligible for Serialization and Deserialization. 
+Ex: 
+import java.io.*; 
+class A implements Serializable{ 
+int i=10; 
+int j=20; 
+}    
+class B extends A{ 
+int k=30; 
+int l=40; 
+} 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+FileOutputStream fos=new FileOutputStream("abc.txt"); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
+B b=new B(); 
+oos.writeObject(b); 
+}
+}
+ 
+-->In Java applications, if we implement Serializable interface in sub class then only sub class properties are allowed in Serialization and deserialization, the respective super class members are not allowed in the Serialization and deserialization. 
+Ex: 
+import java.io.*; 
+class A { 
+int i=10; 
+int j=20; 
+} 
+class B extends A implements Serializable{ 
+int k=30; 
+int l=40; 
+} 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+FileOutputStream fos=new FileOutputStream("abc.txt"); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
+B b=new B(); 
+oos.writeObject(b); 
+}
+}
+ 
+-->In Java applications,while Serializing an object if any associated object is available then JVM will serialize the respective associated object also but the respective associated object must implement Serializable interface otherwise JVM will rise an exception like "java.io.NotSerializableException". 
+Ex: 
+import java.io.*; 
+class Branch implements Serializable{ 
+String bid; 
+String bname; 
+Branch(String bid,String bname){ 
+this.bid=bid; 
+this.bname=bname; 
+}
+} 
+class Account implements Serializable{ 
+String accNo; 
+String accName; 
+Branch branch; 
+Account(String accNo,String accName,Branch branch){ 
+this.accNo=accNo; 
+this.accName=accName; 
+this.branch=branch; 
+}
+} 
+class Employee implements Serializable{ 
+String eid; 
+String ename; 
+Account acc; 
+Employee(String eid,String ename,Account acc){ 
+this.eid=eid; 
+this.ename=ename; 
+this.acc=acc; 
+}
+} 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+FileOutputStream fos=new FileOutputStream("abc.txt"); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
+Branch branch=new Branch("B-111","S R Nagar"); 
+Account acc=new Account("abc123","Durga",branch); 
+Employee emp=new Employee("E-111","Durga",acc); 
+oos.writeObject(emp); 
+}
+}
+    
+Externalization: 
+-----------------
+As part of object serialization and deserialization we are able to separate the data from Object and stored in a text file and we are able to retrieve that object data from text file to Object in Java application. 
+
+In Java applications, to perform serialization and deserialization Java has given "ObjectOutputStream" and "ObjectInputStream" two byte-oriented Streams. 
+
+In Java applications, to perform Serialization just we have to send Serializable object to ObjectOutputStream,it will perform serialization internally, where Developers are not having controlling over serialization process.
+ 
+In Java applications, to perform deserialization just we have to create ObjectInputStream and we have to read deserialized object,where ObjectInputStream will perform deserialization internally,where developers are not having controlling over deserialization process. 
+
+In the above context to have controlling over serialization and deserialization processes inorder to provide the services like security, data compression,data decompression, data encoding.....over serialized and deserialized data we have to go for "Externalization". 
+
+If we want to perform Externalization in java applications,we have to use the following steps. 
+
+1)Prepare Externalizable object 
+2)Perform Serialization and Deserialization over Externalizable object.  
+1)Prepare Externalizable object: 
+
+In Java applications,if we want to create Serializable object then the respective class must  implement java.io.Serializable interface.  
+Similarly, if we want to prepare Externalizable object then the respective class must implement java.io.Externalizable interface. 
+java.io.Externalizable is a sub interface to java.io.Serializable interface. 
+
+java.io.Serializable interface is a marker interface, which is not having abstract methods but java.io.Externalizable interface is not marker interface,which includes the following methods. 
+
+    public void writeExternal(ObjectOutput oop)throws IOException 
+    public void readExternal(ObjectInput oip)throws      IOException,ClassNotFoundException 
+
+where writeExternal(--) method will be executed just before performing serialization in ObjectOutputStream, 
+where we have to perform manipulations on the data which we want to serialize. 
+
+where readExternal(--) method will be executed immediately after performing Deserializationin ObjectInputStream,where we can perform manipulations over the deserialized data. 
+where ObjectOutput is stream,it will carry manipulated data for Serialization. 
+
+To put data in ObjectOutput,we have to use the following methods. 
+public void writeXXX(xxx data) 
+where xxx may be byte,short,int,UTF[String].......... 
+where ObjectInput will get serialized data from text file to perform manipulations. 
+
+To read data from ObjectInput we have to use the following method  
+public void readXXX(xxx data) 
+where xxx may be byte,short,int,UTF[String]..........   
+
+If we want to prepare Externalizable object we have to use the following steps.  
+a)Declare an user defined class 
+b)Implement java.io.Externalizable interface. 
+c)Implement the methods writeExternal(--) and readExternal(--) 
+of Externalizable interface at the user defined class.  
+class Employee implements Externalizable{ 
+public void writeExternal(ObjectOutput oop)throws IOException{ 
+---implementation--- 
+} 
+public void readExternal(ObjectInput oip)throws IOException,ClassNotFoundException{ 
+---implementation---- 
+}
+} 
+Employee emp=new Employee(); 
+2.Perform Serialization and Deserialization over Externalizable object by using ObjectOutputStream and ObjectInputStream: 
+  same as Serialization and DeSerialization 
+
+Ex: 
+import java.util.*; 
+import java.io.*; 
+class Employee implements Externalizable{ 
+String eid; 
+String ename; 
+String email; 
+String emobile; 
+//It will be used to construct object while performing deserialization in Externalization process 
+public Employee(){ 
+} 
+Employee(String eid,String ename,String email,String emobile){ 
+this.eid=eid; 
+this.ename=ename; 
+this.email=email; 
+this.emobile=emobile;   
+} 
+public void writeExternal(ObjectOutput oop)throws IOException{ 
+try{ 
+StringTokenizer st1=new StringTokenizer(eid,"-"); 
+st1.nextToken(); 
+int no=Integer.parseInt(st1.nextToken()); 
+StringTokenizer st2=new StringTokenizer(email,"@"); 
+String mail=st2.nextToken(); 
+StringTokenizer st3=new StringTokenizer(emobile,"-"); 
+st3.nextToken(); 
+String mobile=st3.nextToken(); 
+oop.writeInt(no); 
+oop.writeUTF(ename); 
+oop.writeUTF(mail); 
+oop.writeUTF(mobile); 
+} 
+catch(Exception e){ 
+e.printStackTrace(); 
+}
+} 
+public void readExternal(ObjectInput oip)throws IOException,ClassNotFoundException{ 
+eid="E-"+oip.readInt(); 
+ename=oip.readUTF(); 
+email=oip.readUTF()+"@durgasoft.com"; 
+emobile="91-"+oip.readUTF(); 
+} 
+public void getEmpDetails(){ 
+System.out.println("Employee Details"); 
+System.out.println("-----------------"); 
+System.out.println("Employee Id  :  "+eid); 
+System.out.println("Employee Name : "+ename); 
+System.out.println("Employee Mail : "+email); 
+System.out.println("Employee Mobile: "+emobile); 
+}
+} 
+class ExternalizableEx{ 
+public static void main(String args[])throws Exception{ 
+FileOutputStream fos=new FileOutputStream("emp.txt"); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
+Employee emp1=new Employee("E- 111","Durga","durga@durgasoft.com","91-9988776655"); 
+System.out.println("Employee Data before Serialization"); 
+emp1.getEmpDetails(); 
+oos.writeObject(emp1); 
+System.out.println(); 
+FileInputStream fis=new FileInputStream("emp.txt"); 
+ObjectInputStream ois=new ObjectInputStream(fis); 
+Employee emp2=(Employee)ois.readObject(); 
+System.out.println("Employee Data After Deserialization"): 
+emp2.getEmpDetails();  
+}
+}
+
+Files in Java: 
+---------------
+File is a storage area to store data. 
+There are two types of files in Java. 
+
+1.Sequential Files 
+2.RandomAccessFiles 
+
+1.Sequential Files: 
+-------------------
+It will allow the user to retrive data in Sequential manner. 
+To represent Sequential files,Java has given a predefined class in the form of java.io.File. 
+
+To create File class object we have to use the following constructor. 
+   public File(String file_Name)throws FileNotFoundException  
+   Ex:File f=new File("c:/abc/xyz/emp.txt"); 
+
+Creating File class object is not sufficient to create a file at directory structure we have to use the following method. 
+
+   public File createNewFile() 
+
+To create a Directory, we have to use the following method. 
+
+   public File mkdir() 
+
+To get file / directory name we have to use the following method. 
+public String getName() 
+
+To get file / directory parent location,we have to use the following method. 
+
+public String getParent() 
+To get file / directory absolute path,we have to use the following method. 
+
+   public String getAbsolutePath() 
+
+To check whether the created thing File or not,we have to use the following method. 
+
+   public boolean isFile() 
+
+To check whether the created thing is directory or not we have to use the following method. 
+
+   public boolean isDirectory()  
+
+Ex: 
+import java.io.*; 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+File f=new File("c:/abc/xyz/emp.txt"); 
+f.createNewFile(); 
+System.out.println(f.isFile()); 
+System.out.println(f.isDirectory()); 
+File f1=new File("c:/abc/xyz/student"); 
+f1.mkdir(); 
+System.out.println(f.isFile()); 
+System.out.println(f.isDirectory()); 
+System.out.println("File Name :"+f.getName()); 
+System.out.println("Parent Name :"+f.getParent()); 
+System.out.println("Absolute Path :"f.getAbsolutePath()); 
+int size=fis.available(); 
+byte[] b=new byte[size]; 
+fis.read(); 
+String data=new String(b); 
+System.out.println(data); 
+}
+} 
+
+RandomAccessFile: 
+--------------------
+It is a Storage area,it will allow the user to read data from random positions. 
+
+To represent this file,java has given a predefined class in the form of  
+"java.io.RandomAccessFile". 
+To create RandomAccessFile class object,we have to use the following constructor. 
+
+public RandomAccessFile(String file_name,String access_Privileges) 
+where access_Privileges may be "r" [Read] or "rw" [Read and Write]   
+
+To write data into randomAccessFile,we have to use the following method. 
+
+  public void writeXXX(xxx value) 
+  where xxx may be byte,short,int,UTF[String],..... 
+
+To read data from RandomAccessFile,we have to use the following method 
+  
+    public XXX readXXX() 
+where xxx may be byte,short,int,UTF[String],..... 
+
+To move file pointer to a particular position in RandomAccessFile,we have to use the following method. 
+public void seek(int position) 
+
+Ex: 
+---
+import java.io.*; 
+class Test{ 
+public static void main(String args[])throws Exception{ 
+RandomAccessFile raf=new RandomAccessFile("abc.txt","rw"); 
+raf.writeInt(111); 
+raf.writeUTF("Durga"); 
+raf.writeFloat(5000.0f); 
+raf.writeUTF("HYD"); 
+raf.seek(0); 
+System.out.println("Employee Number  :"+raf.readInt()); 
+System.out.println("Employee Name  :"+raf.readUTF()); 
+System.out.println("Employee Salary  :"+raf.readFloat()); 
+System.out.println("Employee Address  :"+raf. readUTF ()); 
+}
+} 

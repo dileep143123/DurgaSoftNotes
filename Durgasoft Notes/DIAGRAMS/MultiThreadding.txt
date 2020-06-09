@@ -1,0 +1,1078 @@
+Multi Threadding:
+-----------------
+Q)What is the difference between Process, Procedure and Processor?
+-----------------------------------------------------
+Ans:
+----
+process is a flow of execution to perform a particular task.
+
+Procedure is a set of instructions to represent a particular task.
+
+Processor is an H/W component to generate no of processes inorder to execute applications.
+
+At starting point of the computers we have Single Process Mechanism or Single Tasking to execute applications.
+
+In Single Process Mechanism, System is able to allow only one task at a time to load into the memory even our system main memory is capable to manage all the tasks. 
+
+In Single Process mechanism, System is able to allow only one process to execute all the tasks which are available in our application, it will follow sequenetial kind of execution , it will increase application execution time and it will reduce application performance.
+
+To overcome the above problems we have to use Multi Process Mechanim or multi tasking.IN Multi tasking system is able to allow to load more than one task at a time in main memory and it able to allow more than one process to execute application, it will follow parallel execution , it will reduce application execution time and it will improve application performance.
+
+To execute applications by using Multi Tasking or Multi Process Mechanism we have to use the following components.
+
+1.Main Memory: To load all the tasks.
+2.Process Waiting Queue: To keep track of all process
+3.Process Context Block: to manage status of all the                          processes execution.
+4.Process Schedular: It will take process from                      Process Waiting Queue and it                      will assign time stamps to each                      and every process inorder to                      execute.  
+
+
+In the above multi processing system, controlling is swiched from one process contex to another process context called as "Context Switching".
+
+There are two types of Context Switchings.
+1.Heavy Weight Context Switching:
+---------------------------------
+It is the context switching between two heavy weight components, it will take more memory and more execution time , it will reduce application performance.
+EX: Cotext switching between two Processes.
+
+2.Light Weight Context Switching:
+----------------------------------
+It is the context switching between two light weight components, it will take less memory and less execution time and it will improve application performance.
+EX: Context switching between two threads.
+
+Q)What is the difference between Process and Thread?
+----------------------------------------------------
+Ans:
+----
+Process is heavy weight , to handle it System has to consume more memory and more execution time, it will reduce application performance.
+
+Thread is light weight, to handle it system has to consume less memory and less execution time, it will improve application performance.
+----------------------------------------------------
+There are two thread models to execute applications.
+1.Single Thread Model
+2.Multi Thread Model
+
+1.Single Thread Model
+---------------------
+It will allow only one thread to execute application, it will follow sequential exexcution, it will increase application execution time and it will reduce application performance.
+
+2.Multi Thread Model:
+----------------------
+It will allow more than one thread to execute application, it will follow parallel execution , it will reduce application execution time and it will improve application performance.
+
+Java is following Multi Thread Model to execute applications and it will provide very good environment to create and execute more than one thared at a time. 
+
+In java applications, to create Threads JAVA has provided the following predefined library in the form of java.lang package.
+
+Q)What is thread and in how many ways we are able to create threads in java?
+----------------------------------------------------
+Ans:
+----
+Thread is a flow of execution to perfrom a particulaer task.
+
+As per the predefined library provided by JAVA , there are two ways to create threads in java applications.
+
+1.Extending Thread class:
+--------------------------
+In this approach , we have to declarre a class , it must be extended from java.lang.Thread class.
+
+class MyThread extends Thread
+{
+    --implementation----
+}
+
+2.Implementing Runnable interface:
+-----------------------------------
+In this approach, we have to declare a class, it mus implement java.lang.Runnable interface.
+
+class MyThread implements Runnable
+{
+   ---implementation----
+}
+
+Threads Design in Java:
+-----------------------
+There are two approaches to create threads in java applications.
+
+a)Extending Thread class
+b)Implementing Runnable interface
+
+a)Extending Thread class
+-------------------------
+1)Declare an user defined class.
+2)Extend java.lang.Thread class to user defined class
+3)Override Thread class run() method in user defined thread class with the implementation repersenting a particular task which we want to perfrom by creating a thread.
+4)In main class, in main() method, create object for user defined class.
+5)Acess Thread class provided start() method on user defined thread class object reference variable.
+
+The main intention of start() method is to create new thread and to access run() method by passing the generated thread.
+
+public void start()
+
+EX:
+---
+class MyThread extends Thread 
+{
+	public void run()
+	{
+		for(int i=0;i<10;i++)
+		{
+			System.out.println("User Thread :"+i);
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		MyThread mt=new MyThread();
+		mt.start();
+		for(int i=0;i<10;i++)
+		{
+			System.out.println("Main Thread :"+i);
+		}
+	}
+}
+
+
+Q)In java applications, to create threads we have already first approach[Extending thread class] then what is the requirement to go for Second Approach[ implementing Runnable interface]?
+----------------------------------------------------
+Ans:
+----
+In java applications, to create threads if we use first approach then we have to declare an user defined class and it must be extended from java.lang.Thread class, in this context, it is not possible to extend other classes , if we extend any other class like Frame,.. along with Thread class then it will represent Multiple Inheritance, it is not possible in java . 
+
+class MyClass extends Frame, Thread{
+---
+}
+
+To overcome the above problem, we have to use second approach to create thread , that is, implementing Runnable interface.
+
+class MyClass extends Frame implements Runnable{
+----
+} 
+
+
+2)Implementing Runnable interface:
+-----------------------------------
+a)Declare an user defined class.
+b)Implement java.lang.Runnable interface.
+c)Provide implementation part in run() method which   we want to execute by creating a thread.
+d)In main class, in main() method, create a thread   and access user defined thread class run() method. 
+
+To perform the above step we have to use the following cases.
+
+class MyThread implements Runnable{
+public void run(){
+   ---
+}
+}
+
+case-1:
+-------
+MyThread mt=new MyThread();
+mt.start();
+
+Status: Compilation Error.
+Reason: start() method was not declared in MyThread class and in its super class java.lang.Object class, 
+start() method is existed in  java.lang.Thread class.
+
+Case-2:
+-------
+MyThread mt=new MyThread();
+mt.run();
+
+Status: No Compilation Error, but, only Main thread access MyThread class run() method like a normal java method, no multi threadding environment.
+
+Case-3:
+-------
+MyThread mt=new MyThread();
+Thread t=new Thread();
+t.start();
+Status: No Compilation Error, start() method creates new thread and it access Thread class run() method, not MyThread class run() method. 
+
+Case-4:
+-------
+MyThread mt=new MyThread();
+Thread t=new Thread(mt);
+t.start();
+
+Status: No Compilation Error, start() method creates new thread and it will bypass new thread to MyThread class run() method.  
+
+Thread Lifecycle:
+-----------------
+The collective information of a thread right from its starting point to ending point is called as "Thread Life Cycle".
+
+In java applications, Threads are able to have the following states as part of their lifecycle.
+
+1.New/Born State:
+-----------------
+When we create Thread class object in java applications then Thread will come to New/Born state.
+
+2.Ready/Runnable State:
+------------------------
+When we access start() method Thread Schedular has to assign system resources like  memory and time, here before assigninig system resources and after calling start() method is called as Ready/Runnable state.
+
+3.Running State:
+-----------------
+In java applications, after calling start() method and after getting system resources like memory and execution time is called as "Running State".
+ 
+Note: We can send a thread from Running state to Runnable state directly by accessing yield() method , but, it is not supported by Windows operating system, because, it will peform its functinoality on the basis of Threads priority values, priority based operations are not supported by windows operating system. 
+
+4.Dead/Destroy State:
+---------------------
+In java applications, when we access stop() method over Running thread then that thread will come to Dead/Destroy state.
+
+5.Blocked State:
+----------------
+In java applications, we are able to keep a thread in Blocked state from Running state in the following situations.
+a)When we access sleep(--) method with a particular   sleep time.
+b)When we access wait() method.
+c)When we access suspend() method.
+d)When we perform IO Operations.
+
+In java applications, we are able to bring a thread from Blocked state to Ready / Runnable state in the following situations.
+a)When sleep time is over.
+b)If any other thread access notify() / notifyAll()   methods.
+c)If any other thread access resume() method.
+d)When IO Operations are completed.
+
+Thread class Library:
+----------------------
+Consrtuctors:
+------------
+1.public Thread()
+--> This constructor can be used to create thread class object with the following properties.
+
+Thread Name: Thread-0
+Thread Priority: 5
+Thread group Name : main
+EX:
+----
+Thread t=new Thread();
+System.out.println(t);
+OP: Thread[Thread-0, 5, main]
+
+2.public Thread(String name)
+-->This constructor can be used to create Thread class object with the specified name.
+EX:
+---
+Thread t=new Thread("Core Java");
+System.out.println(t);
+OP: Thread[Core Java,5,main]
+
+3.public Thread(Runnable r)
+-->This constructor can be used to create Thread class object with the specified Runnable reference.
+EX: Runnable r=new Thread();
+    Thread t=new Thread(r);
+    System.out.println(t);
+    OP: Thread[Thread-1,5,main]
+
+4.public Thread(Runnable r, String name)
+-->This constructor can be used to create Thread class object with the specified Runnable reference and with the specified name.
+EX: Runnable r=new Thread();
+    Thread t=new Thread(r, "Core Java");
+    System.out.println(t);
+    OP: Thread[Core Java,5,main]
+
+5.public Thread(ThreadGroup tg, Runnable r)
+--> This constuctor can be used to create Thread class object with the specified ThreadGroup name and with the specified thread name.
+Note: To provide ThreadGroup name we have to use a predefined class like java.lang.ThreadGroup, to create ThreadGroup class object we have to use the following Constructor.
+
+public ThreadGroup(String name)
+EX:
+---
+ThreadGroup tg=new ThreadGroup("Java");
+Runnable r=new Thread();
+Thread t=new Thread(tg, r)
+System.out.println(t);
+OP: Thread[Thread-1,5,Java]
+
+6.public Thread(ThreadGroup tg, String name)
+-->This constructor can be used to create Thread class object with the specified ThreadGroup name and with the specified Thread name.
+EX:
+----
+ThreadGroup tg=new ThreadGroup("Java");
+Thread t=new Thread(tg, "Core Java");
+System.out.println(t);
+OP:Thread[Core Java,5,Java]
+
+7.public Thread(ThreadGroup tg, Runnable r, String name)
+--> This constuctor constuctor can be used to create Thread class object with the specified ThreadGroup name, with the Runnable reference and with the thread name.
+EX: ThreadGroup tg=new ThreadGroup("Java");
+    Runnable r=new Thread();
+    Thread t=new Thread(tg, r, "Core Java");
+    OP: Thread[Core Java, 5, Java]
+
+Methods:
+--------
+1.public void setName(String name)
+-->It can be used to sett a particular name to the Thread explicitly.
+
+2.public String getName()
+-->It can be used to get thread name explicitly.
+EX:
+---
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Thread t=new Thread();
+		System.out.println(t.getName());
+		t.setName("Core Java");
+		System.out.println(t.getName());
+	}
+}
+
+3.public void setPriority(int priority)
+-->It can be used to set a particular priority value to the Thread, but, here the priority value must be provided in the range from 1 to 10, if we provide any other value then JVM will rise an exception like java.lang.IllegalArgumentException.
+
+To represent Thread priority values, java.lang.Thread class has provided the following constants.
+
+public static final int MIN_PRIORITY=1;
+public static final int NORM_PRIORITY=5;
+public static final int MAX_PRIORITY=10;
+
+4.public int getPriority()
+-->It can be used to get priority value of the Thread.
+EX:
+----
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Thread t=new Thread();
+		System.out.println(t.getPriority());
+		t.setPriority(7);
+		System.out.println(t.getPriority());
+		t.setPriority(Thread.MAX_PRIORITY-2);
+		System.out.println(t.getPriority());
+		//t.setPriority(15);-->IllegalArgumentException
+	}
+}
+
+5.public static int activeCount()
+--> It will return the no of threads which are in active.
+
+EX:
+---
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Thread t=new Thread();
+		t.start();
+		System.out.println(Thread.activeCount());
+	}
+}
+
+6.public boolean isAlive()
+--> This method can be used to check whether a thread is in live or not.
+EX:
+---
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Thread t=new Thread();
+		System.out.println(t.isAlive());
+		t.start();
+		System.out.println(t.isAlive());
+	}
+}
+
+7.public static thread currentThread()
+--> It can be used to get Thread object reference which is in active at present.
+EX:
+---
+class MyThread extends Thread
+{
+	public void run()
+	{
+		for(int i=0;i<10;i++)
+		{
+			System.out.println(Thread.currentThread().getName());
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		MyThread mt1=new MyThread();
+		MyThread mt2=new MyThread();
+		MyThread mt3=new MyThread();
+		
+		mt1.setName("AAA");
+		mt2.setName("BBB");
+		mt3.setName("CCC");
+
+		mt1.start();
+		mt2.start();
+		mt3.start();
+	}
+}
+
+8.public static void sleep(long time)throws InterruptedException
+--> This method can be used to keep a running thread into sleeping state upto the specified sleep time.
+
+In general, we will use sleep() method in run() method of user defined thread class, where to handle InterruptedException we must use try-catch-finally syntax only, we must not use "throws" keyword in 
+run() method prototype, because, we are overriding Thread class or Runnable interface predefined run() method.
+
+9.public void join()throws InterruptedException
+-->This method will pause a thread to complete a thread on which we accessed join() method , after completion of the respective thread,  paused thread will continue its execution part automatically.
+
+Daemon Threads
+---------------
+These threads are running internally to provided services to some other thread and it will be terminated along with the threads which are taking services.
+
+To make a thread as daemon thread we have to use the following method. 
+
+public void setDaemon(boolean b)
+--> If 'b' value is true then thread will be daemo     thread. 
+--> If 'b' value is false then thread will not be     daemon thread.
+EX: mt.setDaemon(true);
+
+To check whether a thread is daemon thread or not we have to use the following method.
+
+public boolean isDaemon()
+
+Example: In Java, Garbage Collector is a thread running internally inside JVM and it will provide Garbage Collection services to JVM and it will be terminated along with JVM automatically.
+
+Synchronization:
+-----------------
+In java applications, if we execute more than one thraed on a single data item then there may be a chance to get data inconsistency, it may generate wrong results in java applications.
+
+IN java applications, to provide data consistency in the above situation we have to use "Synchronization".
+
+"Synchronization" is a mechanism , it able to allow only one thread at a time , it will not allow more than one at a time, it able to allow other threads after completion of the present thread. 
+
+In java applicatinos, synchronization is going on  
+on the basis of Locking mechanisms, If we send multiple threads at a time to synchroized area then Lock Manager will assign lock to a thread which is having highest priority, once a thread gets loc from Lock manager then that thread is eligible to enter in synchronized area, once a thread is available in synchronized area then Lock Manager will not assign lock to other threads, when Thread completes its execution in synchronized area then that thread has to submit lock back to Lock Manager, once Lock is given back to Lock manager then Lock Manager will assign that lock to another thread which is having next priority.   
+
+In java applications, to ptovide synchronization JAVA has provided a keyword in the form of "synchronized". 
+
+In java applications, we are able to achieve "synchronization" in the following two ways.
+ 
+1.synchronized method
+2.synchronized block
+
+1.synchronized method
+----------------------
+It is a normal java method, it willallow only one thread at a time to execute instructions, it will not allow more than one thread at a time, it will allow other threads after completion of the present thread execution.
+EX:
+---
+class A
+{
+	synchronized void m1()
+	{
+		for(int i=0;i<10;i++)
+		{
+			String thread_Name=Thread.currentThread().getName();
+			System.out.println(thread_Name);
+		}
+	}
+}
+class MyThread1 extends Thread
+{
+	A a;
+	MyThread1(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class MyThread2 extends Thread
+{
+	A a;
+	MyThread2(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class MyThread3 extends Thread
+{
+	A a;
+	MyThread3(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		MyThread1 mt1=new MyThread1(a);
+		MyThread2 mt2=new MyThread2(a);
+		MyThread3 mt3=new MyThread3(a);
+
+		mt1.setName("AAA");
+		mt2.setName("BBB");
+		mt3.setName("CCC");
+
+		mt1.start();
+		mt2.start();
+		mt3.start();
+	}
+}
+
+Q)In java applications, we have already synchronized methods to achieve synchronization then what is the requirement to use synchronized block?
+----------------------------------------------------
+Ans:
+----
+In java applications, if we use synchronized method to achieve synchronization then it will provide synchronization through out the method irrespective of the actual requirment.If we need synchronization upto a block inside the synchronized method then it will provide unneccessary sychronization fpor the remianing part of the method, it will increase execution time and it will reduuce application performance.
+
+In the above context, to provide synchronization upto the required part then we have to use synchronized block.
+
+synchronized block:
+--------------------
+It is a set of instructions, it able to allow only one thread at a time to execute instructions, it will not allow more than one thread at a time, it will allow other threads after completion of the present thread execution. 
+Syntax:
+-------
+synchronized(Object o)
+{
+  -----
+  -----
+}
+
+EX:
+----
+class A
+{
+	void m1()
+	{
+		String thread_Name=Thread.currentThread().getName();
+		System.out.println("Before Synchronized Block :"+thread_Name);
+		synchronized(this)
+		{
+			for(int i=0;i<10;i++)
+			{
+				String thread_Name1=Thread.currentThread().getName();
+				System.out.println("Inside Synchronized Block :"+thread_Name1);
+			}
+		}
+	}
+}
+class MyThread1 extends Thread
+{
+	A a;
+	MyThread1(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class MyThread2 extends Thread
+{
+	A a;
+	MyThread2(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class MyThread3 extends Thread
+{
+	A a;
+	MyThread3(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.m1();
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		MyThread1 mt1=new MyThread1(a);
+		MyThread2 mt2=new MyThread2(a);
+		MyThread3 mt3=new MyThread3(a);
+
+		mt1.setName("AAA");
+		mt2.setName("BBB");
+		mt3.setName("CCC");
+
+		mt1.start();
+		mt2.start();
+		mt3.start();
+	}
+}
+
+Inter thread Communication
+----------------------------
+The process of providing communication between more than one thread is called as " Inter Thread Communication".
+
+To perform Inter Thread Communication we have to use the following methods.
+
+1.wait()
+2.notify()
+3.notifyAll()
+
+Where wait() method can be used to keep a thread in waiting state.
+
+Where notify() method can be used to give a notification to a thread which is available in waiting state.
+
+Where notifyAll() method can be used to give a notification to all the threads which are available i waiting state.
+
+The above methods are provided by JAVA in java.lang.Object class.
+
+If we want to use these methods in java applications then we must provide "Synchronization".   
+
+IN general, Inter Thread Communication will provide solutions for the problems like "Producer-Consumer" problems.
+
+In Propducer-Consumer problem, producer and cosumer are two threads, where producer has to produce an item and consumer has to consume that item, the same sequence has to be provided infinite no of times, where Producer must not produce an item with out consuming previous item by consumer and consumer must not consume an item with out producing that item by producer.
+
+EX:
+---
+class A
+{
+	boolean flag=true;
+	int count=0;
+	public synchronized void produce()
+	{
+		try
+		{
+			while(true)
+			{
+				if(flag == true)
+				{
+					count=count+1;
+					System.out.println("Producer Produced Item"+count);
+					flag=false;
+					notify();
+					wait();
+				}
+				else
+				{
+					wait();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public synchronized void consume()
+	{
+		try
+		{
+			while(true)
+			{
+				if(flag == true)
+				{
+					wait();
+				}
+				else
+				{
+					System.out.println("Consumer Consumed Item"+count);
+					flag=true;
+					notify();
+					wait();
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}
+class Producer extends Thread
+{
+	A a;
+	Producer(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.produce();
+	}
+}
+class Consumer extends Thread
+{
+	A a;
+	Consumer(A a)
+	{
+		this.a=a;
+	}
+	public void run()
+	{
+		a.consume();
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		Producer p=new Producer(a);
+		Consumer c=new Consumer(a);
+		p.start();
+		c.start();
+	}
+}
+
+Dead Lock:
+-----------
+Dead Lock is a situation , where more than one thread is depending on each other in circular dependency.
+
+In java applications, once we are getting deadlock then program will struct in the middle, so that, it will not have any recovery mechanisms, it will have only prevention mechanisms.
+EX:
+---
+class Register_Course extends Thread
+{
+	Object course_Name;
+	Object faculty_Name;
+	Register_Course(Object course_Name, Object faculty_Name)
+	{
+		this.course_Name=course_Name;
+		this.faculty_Name=faculty_Name;
+	}
+	public void run()
+	{
+		synchronized(course_Name)
+		{
+			System.out.println("Register_Course Thread holds course_Name resource and waiting for faculty_Name resource.....");
+			synchronized(faculty_Name)
+			{
+				System.out.println("Register_Course is success, because, Register_Course thread holds both course_Name and faculty_Name resources");
+			}
+		}
+	}
+}
+class Cancel_Course extends Thread
+{
+	Object course_Name;
+	Object faculty_Name;
+	Cancel_Course(Object course_Name, Object faculty_Name)
+	{
+		this.course_Name=course_Name;
+		this.faculty_Name=faculty_Name;
+	}
+	public void run()
+	{
+		synchronized(faculty_Name)
+		{
+			System.out.println("Cancel_Course Thread holds faculty_Name resource and waiting for course_Name resource.....");
+			synchronized(course_Name)
+			{
+				System.out.println("Cancel_Course is success, because, Cancel_Course thread holds both faculty_Name and course_Name resources");
+			}
+		}
+	}
+}
+
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Object course_Name=new Object();
+		Object faculty_Name=new Object();
+		Register_Course rc=new Register_Course(course_Name, faculty_Name);
+		Cancel_Course cc=new Cancel_Course(course_Name, faculty_Name);
+		rc.start();
+		cc.start();
+	}
+}
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+   
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

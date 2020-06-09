@@ -1,0 +1,121 @@
+Wrapper Classes:
+----------------
+Collection is an object , it able to store a group of other objects.
+
+In java applications, Collection objects are able to store only objects , they will not store primitive data. 
+
+JAVA has provided 8 no of wrapper classes w.r.t the 8 no of primitive data types.
+
+Primitive DTs        Wrapper Classes
+--------------       ------------------
+byte --------------------> java.lang.Byte
+short--------------------> java.lang.Short
+int----------------------> java.lang.Integer
+long---------------------> java.lang.Long
+float--------------------> java.lang.Float
+double-------------------> java.lang.Double
+char---------------------> java.lang.Character
+boolean------------------> java.lang.Boolean
+
+Note: Java has provided all the wrapper classes in the form of immutable classes.
+
+Conversions from Primitve Type To Object Type:
+----------------------------------------------
+a)By using parameterized constructors from wrapper classes.
+   public XXX(xxx value)
+   XXX ----> Wrapper classes
+   xxx ----> Primitive types.
+  EX:int i=10;
+     Integer in=new Integer(i);
+     System.out.println(i+"    "+in);
+     OP: 10 10
+b)By using valueOf(-) method provided by Wrapper classes:
+   public static XXX valueOf(xxx value)
+   XXX ----> Wrapper classes
+   xxx ----> primitive data types
+   EX: int i=10;
+       Integer in=Intreger.valueOf(i);
+       System.out.println(i+"    "+in);
+       OP: 10   10
+c)By using Auto-Boxing approach:
+  Auto-Boxing approach was provided by JDK5.0 version, in this approach   no need to use prederfined methods and constructor, simply, we have to   assign primitive variable to wrapper class reference variable.
+  EX: int i=10;
+      Integer in=i;
+      System.out.println(i+"   "+in);
+      OP: 10  10   
+
+2.Conversions from Object type to primitive types:
+---------------------------------------------------
+a)By using xxxValue() method from wrapper classes:
+  public xxx xxxValue()
+  xxx ----> primitive data types
+  EX: Integer in=new Integer(10);
+      int i=in.intValue();
+      System.out.println(in+"   "+i);
+      OP: 10    10
+b)By using Auto-Unboxing:
+Auto-Unboxing was provided by JDK5.0 version, in this approach no need to use any prdefined methods, simply assign wrapper class reference variables to the respective primitive variables.
+EX: Integer in=new Integer(10);
+    int i=in;
+    System.out.println(in+"    "+i);
+    OP: 10    10
+
+3)Conversions from String type to Object Type:
+------------------------------------------------
+a)By using String parameterized constructors from wrapper classes:
+ public XXX(String value)
+ XXX----> Wrapper classes
+ EX: String data="10";
+     Integer in=new Integer(data);
+     System.out.println(data+"   "+in);
+     OP: 10    10  
+b)By using static valueOf(-) method from wrapper classes:
+  public  
+static XXX valueOf(String data)
+  EX: String data="10";
+      Integer in=Integer.valueOf(data);
+      System.out.println(data+"    "+in);
+      OP: 10     10
+
+4.COnversions from Object type to String type:
+-----------------------------------------------
+a)By using toString() method from Wrapper classes:
+  public String toString()
+  EX: Integer in=new Integer(10);
+      String data=in.toString();
+      System.out.println(in+"   "+data);
+      OP: 10   10
+b)By Using '+' concatination operator:
+  If we concatinate any reference variable with "" by using '+' operator   then JVM will access toString() method over the provided reference   variable.
+  EX: Integer in=new Integer(10);
+      String data=""+in;
+      System.out.println(in+"    "+data);
+      OP: 10    10
+
+5.Conversions from Primitive data types to String data types:
+--------------------------------------------------------------
+a)By using static toString() method from werapper classes:
+  public static String toString(xxx value)
+  xxx----> Primitive types
+  EX: int i=10;
+      String data=Integer.toString(i);
+      System.out.println(i+"    "+data);
+      OP: 10    10
+b)By using '+' concatination operator:
+  If we concatinate any primitive variable with "" by using '+' operator   then the resultent value will be generated in String data type.
+  EX: int i=10;
+      String data=""+i;
+      System.out.println(i+"    "+data);
+      OP: 10    10
+
+6.Conversions from String type to primitive type:
+--------------------------------------------------
+a)By using parseXXX() methode from wrapper classes:
+  public static xxx parseXxx(String data)
+  EX: String data="10";
+      int i=Integer.parseInt(data);
+      System.out.println(data+"    "+i);  
+      OP: 10    10
+
+
+

@@ -1,0 +1,708 @@
+Inner Classes:
+--------------
+Declaring a class inside a class is called as Inner class.
+
+Syntax:
+-------
+class Outer_Class
+{
+    class Inner_Class
+    {
+    }
+}
+
+In java applications, Inner classes are able to provide the following advantages.
+
+1.Modularity
+2.Adstraction
+3.Security
+4.Sharability
+5.Reusability
+
+1.Modularity
+-------------
+In java appl, we are able to improv we modularity by using packages. 
+If we want to devide our implementation in a class in the form of modules then we have to use Inner classes. 
+EX:
+---
+class Account
+{
+   class SavingsAccount{
+     ----
+   }
+   class CurrentAccount{
+     ----
+   }
+}
+
+2.Adstraction
+--------------
+If we declare any variable or method in an inner class thenthat variable and method are having scope upto that inner class only , it is not available to other inner classes, so that, Inner classes are able to improve Abstraction.
+EX:
+---
+class A{
+class B{
+  int i=10;
+}
+class C{
+  void m1(){
+    i=i+10;--> Error
+  }
+}
+}
+
+3.Security
+-----------
+It is not possible to declare a class as private, but, it is possible to declare an inner class as private, so that , inner classes are able to improve Security.
+EX:
+----
+private class A{
+}
+Status: Invalid
+EX:
+---
+class A{
+  private class B{
+    ----
+  }
+}
+Status: Valid.
+
+4.Sharability
+---------------
+It is not possible to declare a class as Static, but, it is possible tio declare an inner class as static, so that, inner classes are able to improve Sharability.
+EX:
+---
+static class A{
+}
+Status: Invalid
+EX:
+---
+class A{
+  static class B{
+  }
+}
+Status: Valid
+
+5.Reusability
+----------------
+In java, inheritance feature will imprive Code Reusability.
+IN java applications, we can extend one inner class to another class, so that, inner classes are able to improve Code Reusability.
+EX:
+---
+class A{
+  class B{
+    ---
+  }
+  class C extends B{
+    ---
+  }
+}
+Status: Valid
+
+There are four types of inner classes in java.
+1.Member Inner class
+2.Static Inner class
+3.Method Local Inner class
+4.Anonymous Inner class.
+
+Note: If we compile java file contains inner classes then Compiler will generate a seperate .class for outer class and a seperate .class file will be generated for inner class.
+
+Outer_Class.class ---> for Outer class
+Outer_Class$Inner_Class.class---> For Inner class
+
+1.Member Inner class
+---------------------
+Declaring a normal class[Non static class] inside a class is called as member inner class.
+EX:
+---
+class Outer{
+  class Inner{
+    ----
+  }
+}
+
+If we want to access the members of inner class then we have to create object for the inner class, for this , we have to use the following syntax.
+
+Outer.Inner ref_Var=new Outer().new Inner();
+
+1.By using outer class reference variable we are able to access only outer class members, we are unable to access inner class members.
+2.By using Inner class reference variable we are ABle to access only inner class members we are unable to access outer class members.
+3.Bydefault , all outer class members are available to inner class, so we can access outer class members inside the inner class, but, Inner class members are not available to outer classes, we are unable to access inner class members in outer classes.
+4.Member inner classes are not allowing static declarations directly, but, static keyword is allowed along with final keyword.
+EX:
+---
+class A
+{
+	void m1()
+	{
+		System.out.println("m1-A");
+	}
+	class B 
+	{
+		//static int i=10;--> Error
+		static final int j=20;
+		void m2()
+		{
+			System.out.println("m2-B");
+			System.out.println(j);
+		}
+		void m3()
+		{
+			System.out.println("m3-B");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		a.m1();
+		//a.m2();--> Error
+		A.B ab=new A().new B();
+		ab.m2();
+		ab.m3();
+		//ab.m1();--> Error
+	}
+}
+
+In Member inner classes, we can extend one inner class to another inner class but both the inner classes must be provided with in the same outer class.
+EX:
+---
+class A
+{
+	class B
+	{
+		void m1()
+		{
+			System.out.println("m1-B");
+		}
+		void m2()
+		{
+			System.out.println("m2-B");
+		}
+	}
+	class C extends B
+	{
+		void m3()
+		{
+			System.out.println("m3-C");
+		}
+		void m4()
+		{
+			System.out.println("m4-C");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A.B ab=new A().new C();
+		ab.m1();
+		ab.m2();
+		//ab.m3();--> Error
+		A.C ac=new A().new C();
+		ac.m1();
+		ac.m2();
+		ac.m3();
+		ac.m4();
+	}
+}
+
+We can not extend one inner class to another inner class which are available in two different outer classes.
+EX:
+---
+class A{
+ class B{
+    ---
+  }
+}
+class C{
+  class D extends A.B{
+     ---
+  }
+} 
+Status: Invalid.
+
+We can extend an inner class from an outer class.
+EX:
+---
+class A{
+---
+}
+class B{
+  class C extends A{
+   ----
+  }
+}
+Status: Valid
+
+We can extend the immediate outer class to its inner class.
+EX:
+---
+class A{
+  class B extends A{
+    ---
+  }
+} 
+  
+Q)Is it possible to write an interface inside a class?
+--------------------------------------------------------
+Ans:
+----
+Yes, it is possible to provide an interface inside a class, but, the respective implementation class must be provided with in the same outer class.
+EX:
+---
+class A
+{
+	interface I
+	{
+		void m1();
+		void m2();
+		void m3();
+	}	
+	class B implements I
+	{
+		public void m1()
+		{
+			System.out.println("m1-B");
+		}
+		public void m2()
+		{
+			System.out.println("m2-B");
+		}
+		public void m3()
+		{
+			System.out.println("m3-B");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A.I ai=new A().new B();
+		ai.m1();
+		ai.m2();
+		ai.m3();
+	}
+}
+EX:
+---
+class A
+{
+	abstract class B
+	{
+		void m1()
+		{
+			System.out.println("m1-B");
+		}
+		abstract void m2();
+		abstract void m3();
+	}
+	class C extends B
+	{
+		void m2()
+		{
+			System.out.println("m2-C");
+		}
+		void m3()
+		{
+			System.out.println("m3-C");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A.B ab=new A().new C();
+		ab.m1();
+		ab.m2();
+		ab.m3();
+	}
+}
+
+Static Inner class:
+---------------------
+Declaring a static class inside a class is called as Static inner class.
+Syntax:
+-------
+class Outer
+{
+    static class Inner
+    {
+       ----
+    }
+}
+
+If we want to access the members of static inner class we have to create object for static inner class, for this we have to use the following syntax.
+--------
+Outer.Inner ref_Var= new Outer.Inner();
+
+1.Static inner classes are able to allow only static members of the outer class, it will not allow non static members of the outer class.
+2.IN general, inner classes are not allowing static keyword directly, but, static inner class is able to allow static declarations directly.
+EX:
+---
+class A
+{
+	static class B
+	{
+		void m1()
+		{
+			System.out.println("m1-B");
+		}
+		void m2()
+		{
+			System.out.println("m2-B");
+		}
+		static void m3()
+		{
+			System.out.println("m3-B");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A.B ab=new A.B();
+		ab.m1();
+		ab.m2();
+		A.B.m3();
+	}
+}
+
+Q)Is it possible to write a class inside an interface?
+-------------------------------------------------------
+Ans:
+----
+Yes, it is possible to write a class inside an interface, If we declare a class inside an interface then that class is converted as a static inner class, we can access members of this inner class like static inner class members.
+EX:
+---
+interface I
+{
+	class A// static class A
+	{
+		void m1()
+		{
+			System.out.println("m1-A");
+		}
+		void m2()
+		{
+			System.out.println("m2-A");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		I.A ia=new I.A();
+		ia.m1();
+		ia.m2();
+	}
+}
+
+Note: We can write abstract class inside an interface,but, the respective sub class must be declared in the same interface, here the declared sub class is converted as static inner class.
+
+EX:
+---
+interface I
+{
+	abstract class A
+	{
+		void m1()
+		{
+			System.out.println("m1-A");
+		}
+		abstract void m2();
+		abstract void m3();
+	}
+	class B extends A
+	{
+		void m2()
+		{
+			System.out.println("m2-B");
+		}
+		void m3()
+		{
+			System.out.println("m3-B");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		I.A ia=new I.B();
+		ia.m1();
+		ia.m2();
+		ia.m3();
+	}
+}
+
+Note: We can write an interface inside an interface, but, the respective iplementation class must be provided with in the same outer interface.
+EX:
+---
+interface I1
+{
+	interface I2
+	{
+		void m1();
+		void m2();
+		void m3();
+	}
+	class A implements I2
+	{
+		public void m1()
+		{
+			System.out.println("m1-A");
+		}
+		public void m2()
+		{
+			System.out.println("m2-A");
+		}
+		public void m3()
+		{
+			System.out.println("m3-A");
+		}
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		I1.I2 i12=new I1.A();
+		i12.m1();
+		i12.m2();
+		i12.m3();
+	}
+}
+ 
+Method Local Inner class:
+--------------------------
+Declaring class inside a method is called as Method Inner class.
+
+If we declare a class inside a method then the scope of that is available upto the respective method only, we have to create object for5 that inner class in the respective method onky, we have to access the members of that inner class inside the respective methpd.
+EX:
+----
+class A
+{
+	void m1()
+	{
+		class B
+		{
+			void m2()
+			{
+				System.out.println("m2-B");
+			}
+			void m3()
+			{
+				System.out.println("m3-B");
+			}
+		}//B
+		B b=new B();
+		b.m2();
+		b.m3();
+	}//m1()
+}//A
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		a.m1();
+	}
+}
+
+Anonymous Inner classes:
+-------------------------
+Anonymous inner classes are nameless inner classes, these are used to provide implementation for abstract classes and interfaces.
+
+Note: For abstract class we may take sub classes and for interfaces we may take implementatin classes to provide implementations , but, here sub classes of the abstract class and implementation class of the interface are able to allow their own members and these sub classes and implementation classes objects are having their identity, not interface identity and abstract class identity.
+
+In java applicatins, if we want to provide implementations for only abstract class members or interface members and if we want to create objects with interface identity and with abstract class identity then we have to use Anonymous inner classes.
+
+Syntax:
+------
+abstract class Name / interface Name
+{
+   ----
+}
+class Outer{
+  Name ref_Var=new Name()
+  {
+     ---implementation----
+  };
+}
+EX:
+----
+abstract class A
+{
+	void m1()
+	{
+		System.out.println("m1-A");
+	}
+	abstract void m2();
+	abstract void m3();
+}
+class Outer
+{
+	A a=new A()
+	{
+		void m2()
+		{
+			System.out.println("m2-AIC");
+		}
+		void m3()
+		{
+			System.out.println("m3-AIC");
+		}
+		void m4()
+		{
+			System.out.println("m4-AIC");
+		}
+	};
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Outer o=new Outer();
+		o.a.m1();
+		o.a.m2();
+		o.a.m3();
+		//o.a.m4();--> Error
+	}
+}
+EX:
+---
+interface I
+{
+	void m1();
+	void m2();
+	void m3();
+}
+class Outer
+{
+	I i=new I()
+	{
+		public void m1()
+		{
+			System.out.println("m1-AIC");
+		}
+		public void m2()
+		{
+			System.out.println("m2-AIC");
+		}
+		public void m3()
+		{
+			System.out.println("m3-AIC");
+		}
+		public void m4()
+		{
+			System.out.println("m4-AIC");
+		}
+	};
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Outer o=new Outer();
+		o.i.m1();
+		o.i.m2();
+		o.i.m3();
+		//o.i.m4();--> Error
+	}
+}
+
+IN general, we will use Anonymous Inner classes when we have requirement to pass any interface or abstract class references as parameters to the methods.
+EX:
+---
+interface I
+{
+	void m1();
+	void m2();
+	void m3();
+}
+class A
+{
+	void meth(I i)
+	{
+		i.m1();
+		i.m2();
+		i.m3();
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		A a=new A();
+		a.meth(new I()
+		{
+			public void m1()
+			{
+				System.out.println("m1-AIC");
+			}
+			public void m2()
+			{
+				System.out.println("m2-AIC");
+			}
+			public void m3()
+			{
+				System.out.println("m3-AIC");
+			}
+			public void m4()
+			{
+				System.out.println("m4-AIC");
+			}
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

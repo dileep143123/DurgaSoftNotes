@@ -1,0 +1,318 @@
+RMI[Remote Method Invocation]
+------------------------------
+To prepare Distributed applications,if we use Socket programming then we have to prepare ServerSocket, Client Side Socket, InputStreams, OutputStreams,..... at local machine and Remote machine explicitly, it will increase burden to the developers.
+
+To overcome the above problems, SUN Microsystems has provided an alternative distributed tech to prepare distributed applications, that is, RMI.
+
+In case of RMI, the complete distributed applications infrastructer like Server socket, socket, input streams and OutputStreams,.... are provided by RMI internally, developers are not required to provide distributed applications infrastructer explicitly.
+
+RMI will use the following two components internally to provide Distributed applicatins infrastructer.
+
+1.Stub
+2.Skeleton
+
+1.Stub:
+-------
+It is a special component in RMI, it will be existed at Local Machine, it will provide Client side socket, Input and Output Streams and it is capable to perform Serialization and Deserialization, Marshalling and Unmarshalling and it able to recieve remote method calls from local machine and it will send remote method call to network, it able to recieve return values from remote method call from network and it will send that return values to client application. 
+
+2.Skeleton:
+------------
+It is a special component in RMI, it will be existed at Remote machine, it will provide server socket, InputStreams and OutputSTream, it is capable to perform Serialization and Deserialization , Marshalling and Unmarshalling and it able to reacieve remote method call from Network, it able to access remote methods and it able to carry return values of remote methods to network.
+
+Note: To expose Remote objects in network, RMI will use a seperate Registry Software called as "RMIRegistry.
+
+RMI Arch:
+---------
+--- Diagram-----
+
+
+
+
+1.Create Remote object and keep Remote object in RMIRegistry   "along with logical name" inorder to expose Remote object in   network.
+2.At Local machine, perform lookup operation in RMIRegistry on   the basis of logical name.
+3.RMIRegistry will return Remote object reference value to local  machine or Client Application.
+4.Access Remote method by using Remote object reference.
+5.When we access Remote method, Remote method call will be send   to Stub.
+6.Stub will perform the required "Serialization" and   "Marshalling" over the remote method call.
+7.Stub will send remote method call to Network.
+8.Network will transfer remote method call to Remote machine.
+9.Skeleton will take remote method call from network.
+10.Skeleton will perfrom the required "Unmarshalling" and   "Deserialization" over the remote method call.
+11.Skeleton will access remote method.
+12.Skeleton will get return value of remote method.
+13.Skeleton will perform the required "Serialization" and   "Marshalling" over the return value.
+14.Skeleton will send return value to Network.
+15.Network will carry return value to Local machine.
+16.Stub will take return value from network.
+17.Stub will perform the required "Unmarshalling" and   "Deserialization" over the return value. 
+18.Stub will send return value to Client application.
+Steps to prepare RMI Application:
+----------------------------------
+1.Create Remote interface
+2.Create Remote interface implementation class
+3.Create Registry program
+4.Create Client Application
+5.Execute RMI Application
+
+1.Create Remote interface
+--------------------------
+The main intention of Remote interface is to declare all remote services in the form of abstract methods.
+Steps:
+------
+a)Declare an user defined interface.
+b)Extend java.rmi.Remote interface to user defined interface.
+c)Declare remote methods in the form of abstract methods.
+d)Throws out java.rmi.RemoteException at each and every remote  metod. 
+EX:
+---
+public interface MyRemote extends java.rmi.Remote
+{
+   public String myRemoteService1()throws          java.rmi.RemoteException;
+   public String myRemoteService2()throws                java.rmi.RemoteException;
+   -----
+}
+
+2)Create Remote interface implementation class:
+------------------------------------------------
+The main intention of Implementation class for Remote interface is to provide implementation to service methods.
+Steps:
+------
+a)Declare an user defined class.
+b)Extend java.rmi.server.UnicastRemoteObject abstract class to user defined class inorder to make network enable.  
+c)Implement User defined Remote interface in user defined class.
+d)Declare public and 0-arg constructor in user defined class with throws java.rmi.RemoteException.
+e)Provide implementation for Service methods.
+EX:
+---
+public class MyRemoteImpl extends java.rmi.server.UnicastRemoteObject implements MyRemote
+{
+   public MyRemoteImpl()throws java.rmi.RemoteException
+   {
+   }
+   public String myRemoteService1()throws             java.rmi.RemoteException
+   {
+      ----
+   }
+   public String myRemoteService2()throws                java.rmi.RemoteException
+   {
+      ----
+   }
+   ----
+}
+
+3.Create Registry program:
+---------------------------
+The main intention of Registry program is to create Remote object and to keep Remote object in RMIRegistry with a particular logical name.
+Steps
+------
+a)Declare an user defined class with main() method.
+b)In main() method, create Objectt for Remote interface     implementation class.
+C)Bind Remote object with a logical name in RMIRegistry by     using the following method from java.rmi.Naming class.
+    public static void bind(String logical_Name, Remte r)    throws RemoteException 
+EX:
+----
+public class MyRegistry
+{
+   public static void main(String[] args)throws Exception
+   {
+      MyRemote mr=new MyRemoteImpl();
+      java.rmi.Naming.bind("my_rem", mr);
+   }
+}
+
+4.Create Client Application
+----------------------------
+The main intention of Client Application is to get Remote object from RMIRegistry and to access remote methods from Local machine.
+Steps:
+------
+a)Declare an user defined class with main() method.
+b)In main() method, get Remote object from RMIRegistry by using the following method from java.rmi.Naming class.
+
+     public static Remote lookup(String logical_Name)
+
+c)Access Remote methods.
+Ex:
+---
+class ClientApp
+{
+  public static void main(String[] args)
+  {
+     MyRemote mr=(MyRemote)java.rmi.Naming.lookup("my_rem");
+     mr.myRemoteService1();
+     mr.myRemoteService2();
+     ----
+     ----
+  }
+}
+
+5.Execute RMI Application
+--------------------------
+a)Compile all resources[.java files]
+    D:\java830>javac *.java
+b)Start RMIRegistry
+    D:\java830>start RMIRegistry
+c)Execute Registry program
+    D:\java830>start java MyRegistry
+d)Execute Client Application
+    D:\java830>java ClientApp
+
+Application1:
+--------------
+D:\java830\rmi\app1
+------------------
+HelloRemote.java
+HelloRemoteImpl.java
+HelloRegistry.java
+ClientApp.java
+
+HelloRemote.java
+-----------------
+import java.rmi.*;
+public interface HelloRemote extends Remote
+{
+	public String sayHello(String name)throws RemoteException;
+}
+
+HelloRemoteImpl.java
+---------------------
+import java.rmi.*;
+import java.rmi.server.*;
+public class HelloRemoteImpl extends UnicastRemoteObject implements HelloRemote 
+{
+	public HelloRemoteImpl()throws RemoteException
+	{
+	}
+	public String sayHello(String name)throws RemoteException
+	{
+		return "Hello..."+name+"!";
+	}
+}
+
+HelloRegistry.java
+--------------------
+import java.rmi.*;
+public class HelloRegistry 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		HelloRemote hr=new HelloRemoteImpl();
+		Naming.bind("hello", hr);
+		System.out.println("HelloRemote Object is binded with the logical 'hello' in RMIRegistry");
+	}
+}
+
+ClientApp.java
+---------------
+import java.rmi.*;
+public class ClientApp 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		HelloRemote hr=(HelloRemote)Naming.lookup("hello");
+		String msg=hr.sayHello("Durga");
+		System.out.println(msg);
+	}
+}
+
+Application2:
+-------------
+D:\java830\rmi\app2
+-------------------
+CalculatorRemote.java
+CalculatorRemoteImpl.java
+CalculatorRegistry.java
+ClientApp.java
+
+CalculatorRemote.java
+----------------------
+import java.rmi.*;
+public interface CalculatorRemote extends Remote
+{
+	public int add(int i, int j)throws RemoteException;
+	public int sub(int i, int j)throws RemoteException;
+	public int mul(int i, int j)throws RemoteException;
+}
+
+CalculatorRemoteImpl.java
+--------------------------
+import java.rmi.*;
+import java.rmi.server.*;
+public class CalculatorRemoteImpl extends UnicastRemoteObject implements CalculatorRemote 
+{
+	public CalculatorRemoteImpl()throws RemoteException
+	{
+	}
+	public int add(int i, int j)throws RemoteException
+	{
+		return i+j;
+	}
+	public int sub(int i, int j)throws RemoteException
+	{
+		return i-j;
+	}
+	public int mul(int i, int j)throws RemoteException
+	{
+		return i*j;
+	}
+}
+
+CalculatorRegistry.java
+------------------------
+import java.rmi.*;
+public class CalculatorRegistry 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		CalculatorRemote cr=new CalculatorRemoteImpl();
+		Naming.bind("cal", cr);
+		System.out.println("CalculatorRemote object is binded with the logical name 'cal' in RMIRegistry");
+	}
+}
+ClientApp.java
+---------------
+import java.rmi.*;
+public class ClientApp 
+{
+	public static void main(String[] args)throws 	Exception 
+	{
+		CalculatorRemote cr=(CalculatorRemote)		Naming.lookup("cal");
+		System.out.println("ADD  :"+cr.add(10,5));
+		System.out.println("SUB  :"+cr.sub(10,5));
+		System.out.println("MUL  :"+cr.mul(10,5));
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

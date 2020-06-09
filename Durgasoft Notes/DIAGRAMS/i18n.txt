@@ -1,0 +1,194 @@
+Internationalization[I18N]
+---------------------------
+Designing Java applications w.r.t the local users is called as Internationalization.
+
+Java is able to provide very good Internationalization support due to UNICODE representations in java.
+
+UNICODE is one of the character representations following by JAVA, it able to represent all the alphabet from all the natural languages.
+
+In java applications, if we want to provide Internationalization services , first, we have to represent a group of local users in java programs, to represent group of local users, first we have to devide all the users in no of groups .
+
+To devide users into no of groups , we have to use the following parameters:
+
+1.Language:It will be represented in the form of two lower case letters
+EX: en, hi, it,.......
+
+2.Country: It will be represented in the hfrom of two upper case letters.
+EX: US, IN, IT,......
+
+3.System Varient[OS]: It will be represented in the form of three lower case letters.
+EX: win, lin, uni,......
+
+To represent a group of Local users in java applications, JAVA has provided a predefined class in the form of "java.util.Locale" .
+
+To create Objects for java.util.Locale class we have to use the following consrtructors. 
+
+public Locale(String lang)
+public Locale(String lang, String country)
+public Locale(String lang, String country, String Sys_Var)
+
+EX: Locale l=new Locale("en");
+    Locale l=new Locale("en", "US");
+    Locale l=new Locale("it","IT","win");
+
+Java is able to provide Internationalization support in the form of the following three services.
+
+1.Number Formations
+2.Date Foamtions
+3.Message Formations
+
+1.Number Formations:
+---------------------
+From language to language, country to country number representations are varied. Torepresent numbers w.r.t a particular Locale JAVA has provided a predefined class in the from of "java.text.NumberFormat"
+
+To represent number w.r.t a particular Locale by using NumberFormat class we have to use the following steps.
+
+1.Create Locale class object:
+------------------------------
+Locale l=new Locale("en", "US", "win");
+
+2.Create NumberFormat class object:
+-----------------------------------
+To create NumberFormat class object we have to use the following static Factory Method from java.text.NumberFormat class.
+
+public static NumberFormat getInstance(Locale l)
+EX: NumberFormat nf=NumberFormat.getInstance(l);
+
+3.Format a particular Number w.r.t a particular Locale:
+-------------------------------------------------------
+To format a number w.r.t a particular Local we have to use  the following method from java.text.NumberFormat class.
+
+public String format(xxx num)
+Where xxx may be byte, short, int,.....
+EX: String data=nf.format(123456.2345f);
+Example:
+-------
+import java.util.*;
+import java.text.*;
+class I18NEx 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Locale l=new Locale("it","IT","win");
+		NumberFormat nf=NumberFormat.getInstance(l);
+		System.out.println(nf.format(1234567.3456));
+	}
+}
+
+Date Formations:
+------------------
+From language to language, country to country Date representations are varied. To represent Dates w.r.t a particular Locale JAVA has provided a predefined class in the from of "java.text.DateFormat"
+
+To represent Date w.r.t a particular Locale by using DateFormat class we have to use the following steps.
+
+1.Create Locale class object:
+-----------------------------
+Locale l=new Locale("en", "US", "win");
+
+2.Create DateFormat class object:
+----------------------------------
+To create DateFormat class object we have to use the following static factory method from java.text.DateFormat class.
+
+public static DateFormat getDateInstance(int date_Style, Locale l)
+Where date_Style may be 0,1,2 and 3.
+EX: DateFormat df=DateFormat.getDateinstance(0, l);
+
+3.Format current System Date w.r.t a particular Locale:
+--------------------------------------------------------
+To format current System Date w.r.t a particular Locale we have to use the following method from java.text.DateFormat class.
+
+public String format(Date d)
+EX: String date=df.format(new Date());
+
+Example:
+---------
+import java.util.*;
+import java.text.*;
+class I18NEx 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Locale l=new Locale("it","IT","win");
+		DateFormat df=DateFormat.getDateInstance(3,l);
+		System.out.println(df.format(new Date()));
+	}
+}
+
+3.Message Formations:
+----------------------
+From language to language , from country to country, messages repersentations are varied, if we want to represent message w.r.t a particular Locale then we have to use java.util.ResourceBundle class provided by JAVA.
+
+To represent messages w.r.t a particular Locale by using ResourceBundle class we have to use the following steps. 
+
+1.Prepare properties files for each and every locale:
+-----------------------------------------------------
+In properties files we have to provide locale respective messages in the form of Key-Value pairs, where keys must be in english but values must be in local respective messages.
+
+We have to provide properties files names in the following format.
+
+File_name_<lang>_<country>_<sys_Var>.properties
+EX1: abc_en_US.properties
+--------------------------
+welcome=Welcome to en US Users.
+
+EX2: abc_it_IT.properties
+-------------------------
+welcome=Welcomeo Toe it IT Userse.
+
+EX3: abc_hi_IN.properties
+--------------------------
+welcome=Aap ka swagath hai.
+
+2.In Java program, Create Locale object:
+-----------------------------------------
+Locale l=new Locale("en", "US");
+
+3.Prepare ResourceBundle class Object:
+---------------------------------------
+The main intention of ResourceBundle object is to store the content of a particular properties file. 
+
+To create ResourceBundle Object we have to use the following method.
+
+public static ResourceBundle getBundle(String base_Name, Locale l)
+EX: ResourceBundle rb=ResourceBundle.getBundle("abc",l);
+
+4.Get Message from ResourceBundle:
+----------------------------------
+To get Message from ResourceBundle object we have to use the following method.
+
+public String getString(String key)
+
+String message=rb.getString("welcome");
+
+Example:
+--------
+abc_en_US.properties
+--------------------------
+welcome=Welcome to en US Users.
+
+abc_it_IT.properties
+-------------------------
+welcome=Welcomeo Toe it IT Userse.
+
+ abc_hi_IN.properties
+--------------------------
+welcome=Aap ka swagath hai.
+
+I18NEx.java
+------------
+import java.util.*;
+class I18NEx 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Locale l=new Locale("hi","IN");
+		ResourceBundle rb=ResourceBundle.getBundle("abc",l);
+		System.out.println(rb.getString("welcome"));
+	}
+}
+
+
+
+
+
+

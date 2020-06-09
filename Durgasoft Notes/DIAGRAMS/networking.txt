@@ -1,0 +1,310 @@
+Networking
+-----------
+By Using Java programming language we are able to prepare the following two types of applications 
+
+1.Standalone Applications
+2.Distributed Applications
+
+Q)What is the difference between Standalone Application and Distributed Application?
+-----------------------------------------------------------------
+Ans:
+----
+If we prepare any java application with out using Client-Server Arch. is called as "Standalone" Application. In Standalone applications the complete application logic will be distributed over a single machine[JVM] and it will be executed with in a single machine. 
+
+If we prepare any Java application on the basis of Client-Server arch then that java application is called as Distributed application. In Distributed applications , the complete application logic will be distributed over multiple machines[ Client and Server] and it will be executed over multple machines.
+-----------------------------------------------------------------
+To prepare Distributed applications we have to use the following distributed  technologies
+
+1.Socket Programming
+2.RMI
+3.CORBA
+4.EJBs
+5.Web Services
+
+1.Socket Programming:
+----------------------
+To prepare Distributed applications if we use Socket programming then we have to prepare Sockets inorder to transfer data from one machine to another Machine.
+
+Socket is a channel or medium, it can be used to transfer data from one machine to another machine.
+
+In Socket programming we will establish sockets between machines on the basis of Machines IP Addresses and Port numbers.
+
+Q)What is the difference between IPAddress and Port number?
+-----------------------------------------------------------
+Ans:
+----
+IP Address is an unique identity for each and every machine over the network, it would be provided by Network Manager at the time of network configuration.
+
+Port Number is an Unique identity to each and every process being executed , it would be provided local operating System.
+----------------------------------------------------------------
+To prepare Distributed applications by using SOcket programming the required predefined library is provided by java in the form of "java.net" package.
+
+Socket Programming Arch:
+-------------------------
+
+Steps to prepare Client Side Application:
+------------------------------------------
+1.Create Client Side Socket:
+-----------------------------
+To create Client Side Socket we have to use the following constructor from java.net.Socket class.
+   public Socket(String server_IP_Addr, int Server_Port_No)
+EX: Socket s=new Socket("localhost", 4444);
+If Server Socket is existed at the same client then we are able to use "localhost" in place of Server IP Address.
+
+2.Get OutputStream from Socket:
+--------------------------------
+To get OutputStream from Socket we have to use the following method from java.net.Socket class.
+
+public OutputStream getOutputStream()
+EX: OutputStream os=s.getOutputStream();
+
+3.Prepare PrintStream with OutputStream:
+------------------------------------------
+PrintStream ps=new PrintStream(os);
+
+4.Send Data to PrintStream:
+----------------------------
+String data="Hello";
+ps.println(data);
+
+5.Get InputStream from Socket:
+------------------------------
+To get InputStream from Socket we have to use the following method from java.net.Socket class.
+
+public InputStream getInputStream()
+EX: InputStream is=s.getInputStream();
+
+6.prepare BufferedReader with InputStream:
+--------------------------------------------
+BufferedReader br=new BufferedReader(new InputStreamReader(is));
+
+7.Read data from BufferedReader:
+--------------------------------
+String data=br.readLine();
+System.out.println(data);
+
+Steps To Prepare Server Side Application:
+-----------------------------------------
+1.Create Server Side Socket:
+-----------------------------
+To ceate Server Side Socket we have to use the following constructor from java.net.ServerSocket class.
+   public ServerSocket(int port_No)
+   EX: ServerSocket ss=new ServerSocket(4444);
+
+2.Accept the Client request about to establish connection:
+----------------------------------------------------------
+To accept Client request about to establish Connection we have to use the following method from java.net.ServerSocket class.
+     public Socket accept()
+     EX: Socket s=ss.accept();
+
+3.Get InputStream from Socket:
+------------------------------
+public InputStream getInputStream()
+EX: InputStream is=s.getInputStream();
+
+4.Prepaare BufferedReader from InputStream:
+---------------------------------------------
+BufferedReader br=new BufferedReader(new InputStreamReader(is));
+
+5.Read Data from BufferedReader:
+---------------------------------
+String data=br.readLine();
+System.out.println(data);
+
+6.Get OutputStream from Socket:
+--------------------------------
+OutputStream os=s.getOutputStream();
+
+7.Prepare PrintStream with OutputStream:
+-----------------------------------------
+PrintStream ps=new PrintStream(os);
+
+8.Send data to PrintStream:
+----------------------------
+String data="Hai";
+ps.println(data);
+
+ClientApp.java
+----------------
+import java.net.*;
+import java.io.*;
+public class ClientApp 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Socket s=new Socket("localhost", 4444);
+		OutputStream os=s.getOutputStream();
+		PrintStream ps=new PrintStream(os);
+		BufferedReader br1=new BufferedReader(new InputStreamReader( System.in));
+		String data1=br1.readLine();
+		ps.println(data1);
+
+		InputStream is=s.getInputStream();
+		BufferedReader br2=new BufferedReader(new InputStreamReader(is));
+		String data2=br2.readLine();
+		System.out.println(data2);
+	}
+}
+
+ServerApp.java
+---------------
+import java.io.*;
+import java.net.*;
+public class ServerApp 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		ServerSocket ss=new ServerSocket(4444);
+		Socket s=ss.accept();
+		InputStream is=s.getInputStream();
+		BufferedReader br1=new BufferedReader(new InputStreamReader(is));
+		String data1=br1.readLine();
+		System.out.println(data1);
+
+		OutputStream os=s.getOutputStream();
+		PrintStream ps=new PrintStream(os);
+		BufferedReader br2=new BufferedReader(new InputStreamReader( System.in));
+		String data2=br2.readLine();
+		ps.println(data2);
+	}
+}
+
+
+Above program provides one time communication, to get infinite communication between client and server then we have to use infinite loop at both client and server applications with the respective instructions. 
+
+
+ClientApp.java
+----------------
+
+import java.net.*;
+import java.io.*;
+public class ClientApp 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		Socket s=new Socket("localhost", 4444);
+		OutputStream os=s.getOutputStream();
+		PrintStream ps=new PrintStream(os);
+		BufferedReader br1=new BufferedReader(new InputStreamReader( System.in));
+		
+		InputStream is=s.getInputStream();
+		BufferedReader br2=new BufferedReader(new InputStreamReader(is));
+		
+		while(true)
+		{
+			String data1=br1.readLine();
+			ps.println(data1);
+			String data2=br2.readLine();
+			System.out.println(data2);
+
+			if(data1.equals("bye") && data2.equals("bye"))
+			{
+				System.exit(0);
+			}
+		}
+	}
+}
+
+
+ServerApp.java
+--------------
+import java.io.*;
+import java.net.*;
+public class ServerApp 
+{
+	public static void main(String[] args)throws Exception 
+	{
+		ServerSocket ss=new ServerSocket(4444);
+		Socket s=ss.accept();
+		InputStream is=s.getInputStream();
+		BufferedReader br1=new BufferedReader(new InputStreamReader(is));
+
+		OutputStream os=s.getOutputStream();
+		PrintStream ps=new PrintStream(os);
+		BufferedReader br2=new BufferedReader(new InputStreamReader( System.in));
+		
+		while(true)
+		{
+			String data1=br1.readLine();
+			System.out.println(data1);
+			String data2=br2.readLine();
+			ps.println(data2);
+
+			if(data1.equals("bye") && data2.equals("bye"))
+			{
+				System.exit(0);
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

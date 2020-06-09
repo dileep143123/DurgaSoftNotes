@@ -1,0 +1,385 @@
+Generics:
+----------
+What is the requirement to use Generics in Java applications.
+1.To represent one thing if we allow only one data type then it is type safe operation.
+EX: Arrays are providing typesafe operation.
+  Student[] std=new Student[3];
+  std[0]=new Student();----> Valid
+  std[1]=new Student();----> Valid
+  std[2]=new Customer();---> Invalid
+
+To repersent one thing if we allow more than one type then it is Type unsafe operation.
+EX: Collection objects are providing type Unsafe operation, because, Collection objects are able to allow heterogeneous elements.
+  ArrayList al=new ArrayList();
+  al.add("AAA");
+  al.add(new Employee());
+  al.add(new Integer(10));
+  al.add(new StringBuffer("CCC"));
+
+In Collections to improve typedness or to provide typesafe operations then we have to use "Generics".
+
+2.If we add elements to the Collection object and if we want to retrive elements from Collection objects we must perform type casating, because, get(--) methods of Collections are able to retrive elements in the form of java.lang.Object type.
+EX:
+---
+ArrayList al=new ArrayList();
+al.add("A");
+al.add("B");
+al.add("C");
+al.add("D");
+System.out.println(al);
+String str=al.get(2);---> Compilation Error, Incompatible types.
+String str=(String)al.get(2);--> Valid
+
+If we use Generics along with Collections then it is not required to type cast while iterating elements.
+
+The main intention of Generics is,
+1.To provide typesafe operations in Collections.
+2.To avoid Type casting while retriving elements from Collections.
+
+Generics is a Type parameter specified along with Collections inorder to fix a particular type of elements to add.
+  
+Syntax:
+------
+Collection_Name<Generic_Type> ref=new Collection_Name<GenericType>([ Params]);
+EX:
+----
+ArrayList<String> al=new ArrayList<String>();
+
+The above ArrayList object is able to add only String type elements, if we are trying to add any other elements then Compiler will rise an error.
+EX:
+---
+import java.util.*;
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		ArrayList<String> al=new ArrayList<String>();
+		al.add("A");
+		al.add("B");
+		al.add("C");
+		al.add("D");
+		al.add("E");
+		System.out.println(al);
+		al.add(new Integer(10));---> Error
+		System.out.println(al);
+	}
+}
+
+Before JDK5.0 version, ArrayList class is
+public class ArrayList
+{
+    public void add(Object obj)
+    {
+    }
+    public Object get(int index)
+    {
+    }
+     -----
+     -----
+}
+
+From JDK5.0 version ArrayList class is
+public class ArrayList<T>
+{
+    public void add(T t)
+    {
+    }
+    public T get(int index)
+    {
+   }
+} 
+In the above ArrayList we can provide any user defained data type to T.
+
+EX1: ArrayList<String> al = new ArrayList<String>();
+Here ArrayList class is converted internally as 
+public class ArrayList<String>
+{
+    public void add(String t)
+    {
+    }
+    public String get(int index)
+    {
+   }
+} 
+Here add(-) method is able to take only String elements to add to the ArrayList and get() method will return only String elements.
+
+al.add("A");---> Valid
+al.add("B");---> Valid
+al.add("C");---> Valid
+al.add(new Integer(10));---> Invalid.
+String str=al.get(2);
+
+EX2: ArrayList<Integer> al=new ArrayList<Integer>();
+Here ArrayList class is converted internally like below.
+public class ArrayList<Integer>
+{
+    public void add(Integer t)
+    {
+    }
+    public Integer get(int index)
+    {
+   }
+} 
+
+Here add(-) method is able to take only Integer elements to add to the ArrayList and get() method will return only Integer elements.
+
+al.add(new Integer(10));---> Valid
+al.add(new Integer(20));---> Valid
+al.add(30);---> Valid, Autoboxing
+al.add("AAA");---> Invalid.
+Integer in=al.get(1);--> valid
+int i=al.get(2);---> Valid, Auto-Unboxing
+ 
+If any java class is having Generic type parameter at its declaration then that class is called as "Generic Class".
+
+Note: "Generics" feature is provided by JAVA along with its JDK5.0 version.
+EX:
+---
+class Account<T>
+{
+}
+
+Account<Savings> acc=new Account<Savings>();
+Account<Current> acc=new Account<Current>();
+
+In the above Generic class declaration, we can use any valid java identifier as Type parameter.
+EX:
+class Account<X>
+{
+}
+Status: Valid
+EX:
+class Account<Durga>
+{
+}
+Status: Valid
+
+In the above Generic class declaration, we can use any no of Type parameters by provide ',' seperator.
+
+EX: class HashMap<K,V>
+    {
+    }
+    WHere 'K' is key.
+    Where 'V' is value.
+
+EX:
+----
+class Account<T>
+{
+	T obj;
+	public void set(T obj)
+	{
+		this.obj=obj;
+	}
+	public T get()
+	{
+		return obj;
+	}
+	public void display_Type()
+	{
+		System.out.println(obj.getClass().getName());
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		Account<String> acc=new Account<String>();
+		acc.set("Savings_Account");
+		System.out.println(acc.get());
+		acc.display_Type();
+	}
+}
+
+Bounded Types:
+---------------
+In Generic Classes, we can bound the type parameter for a particular range by using "extends" keyword.
+EX1:
+---
+class Test<T>
+{
+}
+
+It is unbounded type, we can pass any type of parameter.
+Test<String> t=new Test<String>();
+Test<Integer> t=new Test<Integer>();
+
+EX2:
+----
+class Test<T extends X>
+{
+}
+
+If X is a class type then we can pass either X type elements or sub class elements of X type as parameter types. 
+EX:
+---
+class Payment
+{
+}
+class CashPayment extends Payment
+{
+}
+class CardPayment extends Payment
+{
+}
+class Bill<T extends Payment>
+{
+}
+
+Bill<Payment> bill=new Bill<Payment>(); ---> Valid
+Bill<CashPayment> bill=new Bill<CashPayment>();--> Valid
+Bill<CardPayment> bill=new Bill<CardPayment>();---> Valid
+EX:
+---
+class Test<T extends Number>
+{
+}
+Test<Number> t=new Test<Number>()---> Valid
+Test<Integer> t=new Test<Integer>();----> Valid
+Test<Float> t=new Test<Float>();----> Valid
+Test<String> t=new Test<String>();---> Invalid
+
+If 'X' is an interface then we are ABle to pass either X type elements of its implementation class types as parameter.
+EX:
+---
+interface Java
+{
+}
+class CoreJava implements Java
+{
+}
+class AdvJava implements Java
+{
+}
+class Course<T extends Java> 
+{
+}
+
+Course<Java> crs1=new Course<Java>(); --->Valid
+Course<CoreJava> crs2=new Course<CoreJava>();--> Valid
+Course<AdvJava> crs3=new Course<AdvJava>();---> Valid
+
+Note: Bouded parameters are not allowing "implements" keyword and "super" keyword.
+class Test<T implements Runnable>
+{
+}
+StatUs: Invalid
+
+class Test<T super String>
+{
+}
+Status: Invalid
+ 
+In Generic classes , we can use more than one type as bounded parameter by using '&' symbol. 
+EX:
+---
+class Test<T extends Number & Serializable>
+{
+}
+Here Test class is able to allow the elements which must be either same as NUmber or sub classes to the number and which must be the implementations of Serializable interface.
+
+Test<Integer> t=new Test<Integer>();--> Valid
+Test<Float> t=new Test<Float>();--> Valid
+Test<String> t=new Test<String>--> Invalid.
+
+EX:
+clas Test<T extends Number & Thread>
+{
+}
+Status: Invalid
+Reason: extends keyword will not allow two class types at a time.
+
+EX:
+class Test<T extends Runnbale & Serializable>
+{
+}
+Statis: valid.
+Reason: extends keyword is able to allow more than one interface type.
+
+EX:
+---
+class Test<T extends Number & Runnable>
+{
+}
+Status: Valid.
+Reson: extends is able to allow both class type and interface type , but, first we have to specify class type then we ahve to specify Interface type.
+Ex:
+---
+class Test<T extends Runnable & Number>
+{
+}
+Status: Invalid.
+Reason: extends keyword allows first class_Name then interface_Name
+
+EX:
+---
+import java.util.*;
+class Account
+{
+	String accNo;
+	String accName;
+	String accType;
+
+	Account(String accNo, String accName, String accType)
+	{
+		this.accNo=accNo;
+		this.accName=accName;
+		this.accType=accType;
+	}
+	
+}
+class Bank
+{
+	public ArrayList<Account> getAccountsList(ArrayList<Account> al)
+	{
+		al.add(new Account("a111", "AAA", "Savings"));
+		al.add(new Account("b111", "BBB", "Savings"));
+		al.add(new Account("c111", "CCC", "Savings")); 
+		al.add(new Account("d111", "DDD", "Savings"));
+		return al;
+	}
+}
+class Test 
+{
+	public static void main(String[] args) 
+	{
+		ArrayList<Account> al=new ArrayList<Account>();
+		Bank bank=new Bank();
+		ArrayList<Account> acc_List=bank.getAccountsList(al);
+		System.out.println("ACCNO\tACCNAME\tACCTYPE");
+		System.out.println("------------------------------");
+		for(Account acc: acc_List)
+		{
+			System.out.println(acc.accNo+"\t"+acc.accName+"\t"+acc.accType);
+		}
+	}
+}
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
