@@ -1,0 +1,111 @@
+		Date : 22/06/2020
+		Spring Boot New Batch - 7:45 PM
+---------------------------------------------------
+		7:45PM to 9:20 PM
+FB:
+https://www.facebook.com/groups/thejavatemple/
+Email:
+javabyraghu@gmail.com
+
+Admin: Sirkanth
++91- 630 296 8665
+-----------------------------------------------------
+Pre-Req:
+Core Java | Adv Java  basics 
+Spring Core Basics ( Covered in Course)
+Hibernate basics  ( Covered in Course)
+Spring Boot RestFul websevices (Covered in Course)
+----------------------------------------------
+Spring Boot and Microservices - 4 Months 
+
+Tools :
+Eclipse/STS
+Maven/Gradle
+JUnit + Mock
+Docker
+Cloud Deploy (PCF)
+
+Mini Project
+Angular UI
+Security Project
+OAuth | JWT Project
+Curd Operation MYSQL/Oracle DB
+Thymeleaf / JSP
+Pagination / AJAX
+
+=========================================================================
+			  Spring Boot
+
+Spring Boot is a Spring based framework that behaves as a Project
+which reduces common works (AutoConfiguration) by Programmer to create 
+our Project.
+
+
+*) AutoConfiguration reduces work done by programmer, by providing common files
+  (classes, jars..etc)
+
+*) In Spring, programmer is writing code from line#1, In Spring boot it reduces
+   common code by programmer. 
+
+------Spring f/w Database connection Example-----------
+@Configuration
+public class AppConfig {
+  @Bean
+  public DataSource dsObj(){
+    DriverManagerDataSource ds = new DriverManagerDataSource();
+    ds.setDriverClassName("OracleDriver");
+    ds.setUrl("jdbc:oracle");
+    ds.setUsername("nit");
+    ds.setPassword("root");
+    return ds;
+  }
+}
+-------Spring Boot Database connection Example ----
+  spring-boot-starter-jdbc  (AutoConfiguration)
+
+=> This line provide above code into child project from Parent Project.
+=> But, programmer please provide values using properties file
+
+--application.properties--
+driver-class-name=OracleDriver
+url=jdbc:oracle
+username=nit
+password=root
+----------------------------------------------
+*) Here starters  (ex: spring-boot-starter-jdbc) means READY MADE CODE
+   GIVEN BY PARENT PROJECT (SPRING BOOT), BUT IT IS PARTIAL CODE.
+
+
+spring-boot-starter-web
+spring-boot-starter-security
+spring-boot-starter-thymeleaf
+spring-boot-starter-devtools
+spring-boot-starter-data-jpa  (ORM/Hibernate)
+..etc
+
+spring-boot-starter-web reduces below things by programmer 
+a. FrontController (web.xml)=>DispatcherServlet
+b. Enable MVC Annotations
+c. ViewResolver 
+d. HandlerMapping
+
+Q) Where can we add starter in our Project?
+A) Spring boot project must be created either using Maven Tool or using Gradle Tool
+  Maven Tool
+       pom.xml : 
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-jdbc</artifactId>
+	    <version>2.3.1.RELEASE</version>
+	</dependency>
+
+   Gradle Tool
+       build.gradle: 
+	 compile group: 'org.springframework.boot', 
+	         name: 'spring-boot-starter-jdbc', 
+		 version: '2.3.1.RELEASE'
+
+---------------------------------------------------------
+Duration : 4Months
+7:45 PM - 9:20 PM (6 days)
+
